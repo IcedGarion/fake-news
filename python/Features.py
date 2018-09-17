@@ -13,7 +13,7 @@
 '''
 
 from pattern.metrics import ttr
-
+import re
 
 #class morfological_complexity:
 #	def score(record):
@@ -24,14 +24,14 @@ from pattern.metrics import ttr
 
 
 class lexical_variety:
-	''' average percentage of unique words (types) for each n successive words (tokens) in the text.
-		(pattern.metrics.ttr) '''
+	''' pattern.metrics.ttr: average percentage of unique words (types)
+		for each n successive words (tokens) in the text. '''
 
 	def __init__(self):
 		self.min_text = 3
 
 	def score(self, record):
-		return ttr(record["text"], punctuation='.,;:!?()[]{}`''\"@#$^&*+-|=~_') \
+		return ttr(record["text"], n=len(re.split("\W+", record["text"]))) \
 			if isinstance(record["text"], str) and len(record["text"]) > self.min_text \
 			else 0
 
