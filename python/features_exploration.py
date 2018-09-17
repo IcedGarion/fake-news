@@ -1,6 +1,3 @@
-import pandas, inspect
-
-
 ''' DATASET IMPORT '''
 from Dataset import dataset
 dataset_path = "../data/train.csv"
@@ -8,13 +5,12 @@ data = dataset(dataset_path)
 
 
 ''' FEATURES IMPORT '''
-import Features
+import Features, inspect
 
 feats = []
 for name, obj in inspect.getmembers(Features):
 	if inspect.isclass(obj):
 		feats.append(obj())
-
 
 
 ''' FEATURES EXPLORATION
@@ -23,10 +19,11 @@ for name, obj in inspect.getmembers(Features):
 results = { str(feat): { 0: [], 1: []} for feat in feats }
 for record in data:
 	for feature in feats:
-		#print(feature.score(record))
 		results[str(feature)][record["label"]].append(feature.score(record))
-	break
 
 
-''' RESULTS FORMATTING '''
-print(results)
+''' RESULTS REDUCING & FORMATTING '''
+print("\t\t" + "\t".join([str(f) for f in feats]))
+print("unreliable\t" + "\t".join([str(f.mean(results[str(f)][1])) for f in feats]))
+print("reliable\t" + "\t".join([str(f.mean(results[str(f)][0])) for f in feats]))
+
