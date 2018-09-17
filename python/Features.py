@@ -25,7 +25,8 @@ import re
 
 class lexical_variety:
 	''' pattern.metrics.ttr: average percentage of unique words (types)
-		for each n successive words (tokens) in the text. '''
+		for each n successive words (tokens) in the text.
+		https://www.clips.uantwerpen.be/pages/pattern-metrics'''
 
 	def __init__(self):
 		self.min_text = 3
