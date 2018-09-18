@@ -17,17 +17,31 @@ from pattern.metrics import ttr
 import re, os, chardet
 
 
-class morfological_complexity:
-	''' stanford parser: complexity of the sentence's parsing tree '''
-
+class twitter_search:
 	def __init__(self):
-		# stanford parser setup
-		parser_base_dir = "../parser/stanford-parser-full-2018-02-27"
-		modelpath = model_path=parser_base_dir + "/englishPCFG.ser.gz"
-		os.environ['CLASSPATH'] = parser_base_dir
-		os.environ['STANFORD_PARSER'] = parser_base_dir
-		os.environ['STANFORD_MODELS'] = parser_base_dir
-		self.parser = stanford.StanfordDependencyParser(model_path=modelpath, encoding='utf8')
+		pass
+
+	def score(self, record):
+		return 0
+
+	def mean(self, scores):
+		return 0
+
+	def __str__(self):
+		return "twitter search"
+
+
+#class morfological_complexity:
+#	''' stanford parser: complexity of the sentence's parsing tree '''
+#
+#	def __init__(self):
+#		# stanford parser setup
+#		parser_base_dir = "../parser/stanford-parser-full-2018-02-27"
+#		modelpath = model_path=parser_base_dir + "/englishPCFG.ser.gz"
+#		os.environ['CLASSPATH'] = parser_base_dir
+#		os.environ['STANFORD_PARSER'] = parser_base_dir
+#		os.environ['STANFORD_MODELS'] = parser_base_dir
+#		self.parser = stanford.StanfordDependencyParser(model_path=modelpath, encoding='utf8')
 
 
 
@@ -35,18 +49,17 @@ class morfological_complexity:
 
 
 	# siamo qua
-	def score(self, record):
-		print(record["text"])
-		
+#	def score(self, record):
+#		print(record["text"])
+		# converts to unicode-utf8 for compatibility problems with python2
+
 		# controllare api stanford parser: funzione che interessa? parse, raw_parse_sents, parse.... ?
 			#sentences = self.parser.parse(unicode(record["text"], "utf-8"))
-			sentences = self.parser.raw_parse_sents(unicode(record["text"], "utf-8"))
+#			sentences = self.parser.raw_parse_sents(unicode(record["text"], "utf-8"))
 
-		for sentence in sentences:
-			print(len(list(sentence)))
-		return 0
-
-
+#		for sentence in sentences:
+#			print(len(list(sentence)))
+#		return 0
 
 
 
@@ -56,8 +69,10 @@ class morfological_complexity:
 
 
 
-	def mean(self, scores):
-		return sum(scores) / len(scores)
+
+
+#	def mean(self, scores):
+#		return sum(scores) / len(scores)
 
 
 class lexical_variety:
@@ -70,7 +85,7 @@ class lexical_variety:
 		self.min_text = 3
 
 	def score(self, record):
-		# applies ttr function to "text", with n being the number of distinct tokens
+		# applies ttr function to "text", with n the number of distinct tokens (use a tokenizer?)
 		# checks for the text not being a string or "empty"
 		return ttr(record["text"], n=len(re.split("\W+", record["text"]))) \
 			if isinstance(record["text"], str) and len(record["text"]) > self.min_text \
