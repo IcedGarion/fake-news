@@ -8,7 +8,7 @@ dataset_path = "/home/debian/UNIMI/InformationRetrieval/PROGETTO/fake-news/data/
 
 
 ''' DATASET IMPORT '''
-from Dataset import kagglecontest_dataset
+from Dataset import *
 dataset = kagglecontest_dataset(dataset_path)
 
 
