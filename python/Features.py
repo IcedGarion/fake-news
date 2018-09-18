@@ -10,7 +10,7 @@ from pattern.metrics import ttr
 import re, os, twitter, functools, itertools
 
 
-class twitter_search:
+class twittersearch_related:
 	def __init__(self):
 		pass
 		#self.api =twitter.Api(consumer_key="123", \
@@ -29,7 +29,7 @@ class twitter_search:
 		return 0
 
 	def __str__(self):
-		return "twitter_search"
+		return "twittersearch_related"
 
 
 class morfological_complexity:
