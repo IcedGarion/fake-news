@@ -1,11 +1,15 @@
 ''' DATASET: provide iterator over csv file
+	and namesmap: mapping between standard names used and real attribute names
 	record is dict: { attribute_name: attribute_value }
 '''
+''' want to plug in a new dataset? provide an iterator and a namesmap, like below,
+	then switch the dataset name in the main.py '''
 
 import pandas
 
 class kagglecontest_dataset:
-	'''	RECORD structure:
+	'''	https://www.kaggle.com/c/fake-news/data
+		RECORD structure:
 	        id: unique id for a news article
 	        title: the title of a news article
 	        author: author of the news article
@@ -14,10 +18,15 @@ class kagglecontest_dataset:
 	            1: unreliable
 	            0: reliable
 	'''
-	def __init__(self, path):
-		data = pandas.read_csv(path, low_memory=False)
+	def __init__(self):
+		# csv import
+		dataset_path = "/home/debian/UNIMI/InformationRetrieval/PROGETTO/fake-news/data/train.csv"
+		data = pandas.read_csv(dataset_path, low_memory=False)
 		self.attributes = data.keys()
 		self.values = data.values
+		# namesmap: label for the "reliable" / "unreliable" attribute, value for "unreliable", value for "reliable", label for "text"
+		self.namesmap = { "fake_attribute": "label", "fake_label": 1, "nonfake_label": 0, \
+				"text_attribute": "text", "title_attribute": "title" }
 
 	def __iter__(self):
 		for record in self.values:
