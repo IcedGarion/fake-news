@@ -1,6 +1,8 @@
 import pandas
 
-def dataset(path):
+def kagglecontest_dataset(path):
+	''' DATASET: provide iterator over csv file
+		record is dict: { attribute_name: attribute_value }'''
         corpus = pandas.read_csv(path, low_memory=False)
         attributes = corpus.keys()
         values = corpus.values
