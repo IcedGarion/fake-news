@@ -1,15 +1,7 @@
 ''' Features class with score(record) and mean(scores) methods.
 	each feature returns a score based on a record,
-	and has a method for reducing the list of obtaied scores.
-
-	RECORD structure:
-	id: unique id for a news article
-	title: the title of a news article
-	author: author of the news article
-	text: the text of the article; could be incomplete
-	label: a label that marks the article as potentially unreliable
-	    1: unreliable
-	    0: reliable
+	and has a method for reducing the list of obtained scores
+	into a single value.
 '''
 
 from nltk.parse import stanford
@@ -62,7 +54,7 @@ class morfological_complexity:
 		return functools.reduce(lambda x, y: max(x, y), itertools.chain(*[[sentence.height() for sentence in line] for line in parse_tree]))
 
 	def mean(self, scores):
-		return (sum(scores) / len(scores)) / max(scores)
+		return (float(sum(scores)) / len(scores)) / max(scores)
 
 	def __str__(self):
 		return "morfological_complexity"
