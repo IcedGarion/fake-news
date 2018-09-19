@@ -1,0 +1,14 @@
+Processing records...
+Record 0... (1)
+Record 1... (0)
+Record 2... (1)
+
+Skipping...
+Done! Printing results
+
+		lexical_variety		morfological_complexity
+(2) unreliable	       0.452        	        1.0         
+(1) reliable	       0.539        	        1.0         
+
+0 unknown
+3 tot records
