@@ -18,7 +18,8 @@ class kagglecontest_dataset:
 	            1: unreliable
 	            0: reliable
 	'''
-	def __init__(self):
+	def __init__(self, first_record=3363):
+		self.first_record = first_record
 		# csv import
 		dataset_path = "/home/debian/UNIMI/InformationRetrieval/PROGETTO/fake-news/data/train.csv"
 		data = pandas.read_csv(dataset_path, low_memory=False)
@@ -32,5 +33,5 @@ class kagglecontest_dataset:
 	# riparte dal record 3363: cambiare
 	def __iter__(self):
 		for i, record in enumerate(self.values):
-			if i > 3363:
+			if i > self.first_record:
 				yield ({ name: value for name, value in zip(self.attributes, record)})
