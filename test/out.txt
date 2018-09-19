@@ -1,4 +1,27 @@
 Processing records...
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Parsing file: /tmp/tmpAagXKc
+Parsing [sent. 1 len. 20]: ` They Do n't Speak For Me ' -- Evangelical PhD SLAMS Religious Right Leaders Supporting Trump By Stephanie Kuklish
+Parsing [sent. 2 len. 27]: Evangelical Christians have been major players in the 2016 elections with their unrelenting support of Republican presidential nominee , Donald Trump , but Alan Noble , Ph
+Parsing [sent. 3 len. 1]: D
+Parsing [sent. 4 len. 18]: , is putting his foot down and letting the Religious Right know what they are doing is wrong
+Parsing [sent. 5 len. 44]: In a current op-ed for Vox , Noble takes to history , the Bible , and the way of the conservative to point out that somewhere in the recent past , Evangelicals have lost their sense of priority in the character of a man
+Parsing [sent. 6 len. 47]: When discussing the release of tapes where Trump was caught admitting to sexually assaulting women Noble stated : `` Evangelicalism has been sharply divided over Trump , and so my hope was that this tape would finally persuade the remaining evangelical defenders of Trump to abandon him
+Parsing [sent. 7 len. 11]: But for the most part , that 's not what happened
+Parsing [sent. 8 len. 1]: ''
+Parsing [sent. 9 len. 45]: Just as we have seen numerous times in the media , while many Trump supporters were running in the other direction , there were still an enormous amount of influential conservatives battening down the hatches and riding through this storm , still defending the man
+Parsing [sent. 10 len. 5]: Men like Jerry Falwell Jr
+Parsing [sent. 11 len. 51]: , Ben Carson , Tony Perkins , Mike Huckabee , and more , have either stayed steady with their support or have come back to the `` Trump Side , '' shortly after jumping ship , all taking the stance that America should focus less on character and more on policy
+Parsing [sent. 12 len. 42]: Noble discusses the Christian Conservative view this election season by saying : `` Jalsevac makes explicit the logic of so many leaders on the religious right : Character is fundamentally private and only tangentially related the public work of policymaking and politics
+Parsing [sent. 13 len. 37]: Sin is still bad , but since we are all sinners , and since we are not electing a `` pastor in chief , '' what matters most is what kind of president the candidates would be
+Parsing [sent. 14 len. 5]: The real is the political
+Parsing [sent. 15 len. 5]: Everything else is just style
+Parsing [sent. 16 len. 1]: ''
+Parsing [sent. 17 len. 39]: Here is the kicker , though , the pushing off of character and focusing on policy way of thinking for the Christian Conservative was the complete opposite when former President Bill Clinton confessed to his indiscretions while in office
+Parsing [sent. 18 len. 202]: In fact , the Southern Baptist Convention passed a `` Resolution on the Moral Characters of Public Officials , '' after Clinton 's incident stating : `` WHEREAS , Some journalists report that many Americans are willing to excuse or overlook immoral or illegal conduct by unrepentant public officials so long as economic prosperity prevails ; and WHEREAS , Tolerance of serious wrong by leaders sears the conscience of the culture , spawns unrestrained immorality and lawlessness in the society , and surely results in God 's judgment -LRB- 1 Kings 16:30 ; Isaiah 5:18-25 -RRB- ; and ... Therefore , be it RESOLVED , That we , the messengers to the Southern Baptist Convention , meeting June 9-11 , 1998 , in Salt Lake City , Utah , affirm that moral character matters to God and should matter to all citizens , especially God 's people when choosing public leaders ; and ... Be it finally RESOLVED , That we urge all Americans to embrace and act on the conviction that character does count in public office , and to elect those officials and candidates who , although imperfect , demonstrate consistent honesty , moral purity , and the highest character
+
 *******************************************************
 ***  WARNING!! OUT OF MEMORY! THERE WAS NOT ENOUGH  ***
 ***  MEMORY TO RUN ALL PARSERS.  EITHER GIVE THE    ***
@@ -8,12 +31,23 @@ Processing records...
 ***  A SIMPLER PARSER FOR VERY LONG SENTENCES.      ***
 *******************************************************
 
+Sentence has no parse using PCFG grammar (or no PCFG fallback).  Skipping...
+Exception in thread "main" edu.stanford.nlp.parser.common.NoSuchParseException
+	at edu.stanford.nlp.parser.lexparser.LexicalizedParserQuery.getBestParse(LexicalizedParserQuery.java:403)
+	at edu.stanford.nlp.parser.lexparser.LexicalizedParserQuery.getBestParse(LexicalizedParserQuery.java:375)
+	at edu.stanford.nlp.parser.lexparser.ParseFiles.processResults(ParseFiles.java:272)
+	at edu.stanford.nlp.parser.lexparser.ParseFiles.parseFiles(ParseFiles.java:216)
+	at edu.stanford.nlp.parser.lexparser.ParseFiles.parseFiles(ParseFiles.java:75)
+	at edu.stanford.nlp.parser.lexparser.LexicalizedParser.main(LexicalizedParser.java:1518)
+
+
 Skipping...
 Done! Printing results
 
-			lexical_variety		morfological_complexity
-(1718) unreliable	0.586		           0.382        
-(1673) reliable		0.511		           0.456        
+		lexical_variety		morfological_complexity
+(151) unreliable	 m 0.5878, std 0.25 	m 0.5385, std 0.2801
+(127) reliable	m 0.6486, std 0.1764	m 0.5227, std 0.2005
 
 0 unknown
-3363 tot records
+2 skipped
+276 processed records

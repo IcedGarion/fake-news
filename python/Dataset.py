@@ -28,6 +28,9 @@ class kagglecontest_dataset:
 		self.namesmap = { "fake_attribute": "label", "fake_label": 1, "nonfake_label": 0, \
 				"text_attribute": "text", "title_attribute": "title" }
 
+
+	# riparte dal record 3363: cambiare
 	def __iter__(self):
-		for record in self.values:
-			yield ({ name: value for name, value in zip(self.attributes, record)})
+		for i, record in enumerate(self.values):
+			if i > 3363:
+				yield ({ name: value for name, value in zip(self.attributes, record)})
