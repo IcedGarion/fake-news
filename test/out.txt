@@ -1,0 +1,21 @@
+Processing records...
+
+*******************************************************
+***  WARNING!! OUT OF MEMORY! THERE WAS NOT ENOUGH  ***
+***  MEMORY TO RUN ALL PARSERS.  EITHER GIVE THE    ***
+***  JVM MORE MEMORY, SET THE MAXIMUM SENTENCE      ***
+***  LENGTH WITH -maxLength, OR PERHAPS YOU ARE     ***
+***  HAPPY TO HAVE THE PARSER FALL BACK TO USING    ***
+***  A SIMPLER PARSER FOR VERY LONG SENTENCES.      ***
+*******************************************************
+
+Skipping...
+Done! Printing results
+
+			lexical_variety		morfological_complexity
+(204) unreliable	m 0.5824, std 0.2654	m 0.4773, std 0.2764
+(188) reliable		m 0.5185, std 0.1904	m 0.5227, std 0.2018
+
+0 unknown
+3 skipped
+389 processed records
