@@ -2,7 +2,7 @@
 
 * stanford parser path: python/Features.py -> `morfological_complexity.__init__` (parser_base_dir)
 * dataset path: python/Dataset.py -> `kagglecontest_dataset.__init__` (dataset_path)
-* twitter API tokens: python/Features.py -> `twitter_search.__init__`
+* twitter API tokens: python/Features.py -> `twittersearch_count.__init__`
 * results table width (when adding / removing features): python/`features_exploration.py.out_tab_width`
 * Call with number of rcords to be processed: `python python/features_exploration.py 20`
 
@@ -18,7 +18,11 @@
 	   ma si puo' provare anche con media, o altre metriche.
 	   Per ora: valore max fra le profondita' delle frasi di tutto il record
 	* MEAN: Per mettere insieme tutti i valori dei reliable / unreliable, e ottenere un numero fra 0 e 1, (in "mean")
-	   e' stata usata una funzione tipo: (sum(scores) / len(scores)) / max(scores)
+	   e' stata usata una funzione tipo media normalizzata:
+	   unreliable_normalized_mean = (sum(unreliable_scores) / len(unreliable_scores)) / max_of_all
+	   reliable_normalized_mean = (sum(reliable_scores) / len(reliable_scores)) / max_of_all
+	   Viene prodotta anche la deviazione standard: 
+	   numpy.std(numpy.array(unreliable/reliable_scores)) / reliable/unreliable_mean
 	   Ma si puo' cambiare
 
 * lexical_variety:
@@ -26,7 +30,14 @@
 	   punctuation (default) e n numero di tokens del testo: usata una regex per splittare con \W+,
 	   ma puo' cambiare regex oppure usare un tokenizer per fare il conto
 	* MEAN: per ridurre i risultati di reliable / unreliable ad un unico valore 0-1, e' stata usata
-	   una semplice media aritmetica, ma si puo' cambiare
+	   una semplice media aritmetica normalizzata + deviazione standard (COME MORFOLOGICAL_COMPLEXITY), 
+	   ma si puo' cambiare
+
+* twittersearch_count:
+	* SCORE: prende le prime `text_keyword_len` parole dal titolo del record (o, se < 2, dal testo)
+	   e fa la ricerca su twitter. Poi, conta il numero di tweets risultanti. 
+	   Numero di parole da usare per la ricerca si puo' cambiare.
+	* MEAN: usa sempre lo stesso degli altri
 
 
 # SYSTEM
@@ -44,10 +55,12 @@
 
 * Features: Features.py
   In questo file, tutte le "class ...x" presenti verranno caricate come features da utilizzare.
-  Ogni class feature deve avere almeno 2 metodi: score e mean (init senza parametri per inizializzare e --str-- per il nome della feature).
-  SCORE deve ritornare un valore fra 0 e 1, che rappresenta il valore di quella feature applicato a quel record. Le features possono fare
-  qualsiasi tipo di operazione sui campi del record e vengono aiutate da namesmap, dict che indica il nome degli attributi del record da usare.
-  MEAN indica come raggruppare tutti i valore di score per produrre un unico rappresentante per le classi di notizie reliable e unreliable.
+  Ogni class feature deve avere almeno 2 metodi: score e mean (init con 1 argomento per inizializzare i parametri e per salvarsi la "namesmap"
+  che arriva dal dataset; e --str-- per il nome della feature)
+  SCORE deve ritornare un numero che rappresenta il valore di quella feature applicato a quel record. Le features possono fare qualsiasi tipo di
+   operazione sui campi del record e vengono aiutate da namesmap passata in init, dict che indica il nome degli attributi del record da usare.
+  MEAN indica come raggruppare tutti i valori di unreliable_scores e reliable_scores (2 liste, argomenti) per produrre un unico rappresentante 
+  per le classi di notizie reliable e unreliable (uno per lista, quindi mean ritorna tupla di 2 elementi).
   lavora sulle 2 liste separate di scores, e deve produrre una sorta di media (sempre fra 0 e 1)
   Volendo quindi aggiungere una feature, basta scrivere una nuova class_y con i metodi score, mean e --str-- che ritornano quanto specificato.
   Per i parametri basta guardare quelle gia' presenti; per escludere una feature dalla computazione, commentarla.

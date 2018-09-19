@@ -11,27 +11,44 @@ from pattern.metrics import ttr
 import numpy, re, os, twitter, functools, itertools
 
 
-#class twittersearch_related:
-#	def __init__(self):
-#		pass
-#		#self.api =twitter.Api(consumer_key="123", \
-#		#		consumer_secret="123", \
-#		#		access_token_key="123", \
-#		#		access_token_secret="123")
+#class twittersearch_count:
+#	def __init__(self, namesmap):
+#		# parameters: record's first n words to be used as keyword; invalil words to be blanked
+#		self.text_keyword_len = 5
+#		self.nonkeywords_regex = "\W*"
+#		self.max_tweets = 100
+#		self.namesmap = namesmap
+#		self.api = twitter.Api(consumer_key="l6O1jveTxNDneHecEPg6CgcZU", \
+#				consumer_secret="MsYcb7X0ilViZTYncvUCc3VrxjNhvMuAxQ2nvB2yjGx1CxvZJZ", \
+#				access_token_key="1042041710052827137-YMOV4ujLvHGZ7BfelTrYpWhw0IWNWI", \
+#				access_token_secret="nuPQz6Mjy5MivcafUcwRDSe6GxHr0huzbPQOHMNJ6X4n1")
 #
-#	def score(self, record, namesmap):
-#		#print(self.api.VerifyCredentials())
-#		#search = self.api.GetSearch(record[namesmap["title_attribute"]])
-#		#for tweet in search:
-#		#	print(tweet.id, twwet.text)
-#		return 0
+#	def score(self, record):
+#		# twitter search based on record's title or text, cleaned
+#		keywords = str(record[self.namesmap["title_attribute"]])
+#		if len(keywords) <= 1:
+#			keywords = record[self.namesmap["text_attribute"]].split()
+#		else:
+#			keywords = keywords.split()
+#		# removes everything but words
+##		keywords = [ re.sub(self.nonkeywords_regex, "", word) for word in keywords ][:self.text_keyword_len]
+#		keywords = [ word for word in keywords if re.sub(self.nonkeywords_regex, "", word) != "" ][:self.text_keyword_len]
+#		if len(keywords) <= 1:
+#			return 1
+#		# returns number of tweets from the search
+#		print(keywords)
+#		l = len(self.api.GetSearch(keywords, count=self.max_tweets))
+#		print(l)
+#		return l
 #
-#	def mean(self, scores):
-#		return 0
+#
+#	def mean(self, unreliable_scores, reliable_scores):
+#		# mean / max_of_all + normalized stddev for unreliable and reliable
+#		return normalized_mean_stddev(unreliable_scores, reliable_scores)
 #
 #	def __str__(self):
-#		return "twittersearch_related"
-#
+#		return "twittersearch_count"
+
 
 class morfological_complexity:
 	''' stanford parser: complexity of the sentences parsing tree '''
@@ -104,3 +121,18 @@ class lexical_variety:
 
 	def __str__(self):
 		return "lexical_variety"
+
+
+
+
+''' Common function: mean / max_of_all + normalized stddev for unreliable and reliable score lists '''
+def normalized_mean_stddev(unreliable_scores, reliable_scores):
+	tot = []
+	tot.extend(unreliable_scores)
+	tot.extend(reliable_scores)
+	max_of_all = max(tot)
+	unreliable_mean = float(sum(unreliable_scores)) / len(unreliable_scores)
+	reliable_mean = float(sum(reliable_scores)) / len(reliable_scores)
+	return ("m {:.4}, std {:.4}".format(unreliable_mean / max_of_all, numpy.std(numpy.array(unreliable_scores)) / unreliable_mean), \
+		"m {:.4}, std {:.4}".format(reliable_mean / max_of_all, numpy.std(numpy.array(reliable_scores)) / reliable_mean))
+

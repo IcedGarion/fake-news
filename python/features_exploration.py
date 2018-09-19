@@ -32,29 +32,29 @@ i = 0
 try:
 	print("Processing records...")
 	for record in dataset:
-		try:
-			# record: reliable or not?
-			reliable = record[dataset.namesmap["fake_attribute"]]
-			print("Record {}... ({})".format(i, reliable))
-			if reliable == dataset.namesmap["nonfake_label"]:
-				reliable_count += 1
-			elif reliable == dataset.namesmap["fake_label"]:
-				unreliable_count += 1
-			else:
-				unknown_count += 1
+		#try:
+		# record: reliable or not?
+		reliable = record[dataset.namesmap["fake_attribute"]]
+		print("Record {}... ({})".format(i, reliable))
+		if reliable == dataset.namesmap["nonfake_label"]:
+			reliable_count += 1
+		elif reliable == dataset.namesmap["fake_label"]:
+			unreliable_count += 1
+		else:
+			unknown_count += 1
 
-			# applying feature's method "score" and passing the dataset's records attributes names (namesmap)
-			for feature in feats:
-				results[str(feature)][record[dataset.namesmap["fake_attribute"]]].append(feature.score(record))
+		# applying feature's method "score" and passing the dataset's records attributes names (namesmap)
+		for feature in feats:
+			results[str(feature)][record[dataset.namesmap["fake_attribute"]]].append(feature.score(record))
 
-			# BREAK PER TROPPI RECORDS
-			i += 1
-			if i >= max_records:
-				break
+		# BREAK PER TROPPI RECORDS
+		i += 1
+		if i >= max_records:
+			break
 		# anything not ok (empty record / text): skip
-		except Exception:
-			skipped_count += 1
-			continue
+		#except Exception:
+		#	skipped_count += 1
+		#	continue
 except KeyboardInterrupt:
 	skipped_count += 1
 	print("\nSkipping...")
