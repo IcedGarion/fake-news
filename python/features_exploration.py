@@ -17,7 +17,7 @@ import Features, inspect
 feats = []
 for name, obj in inspect.getmembers(Features):	# se importi una classe in Features.py, compare anche qua... evita :(
 	if inspect.isclass(obj):
-		feats.append(obj())
+		feats.append(obj(dataset.namesmap))
 
 
 ''' FEATURES EXPLORATION
@@ -27,37 +27,46 @@ results = { str(feat): { dataset.namesmap["fake_label"]: [], dataset.namesmap["n
 reliable_count = 0
 unreliable_count = 0
 unknown_count = 0
+skipped_count = 0
 i = 0
 try:
 	print("Processing records...")
 	for record in dataset:
-		# record: reliable or not?
-		reliable = record[dataset.namesmap["fake_attribute"]]
-		print("Record {}... ({})".format(i, reliable))
-		if reliable == dataset.namesmap["nonfake_label"]:
-			reliable_count += 1
-		elif reliable == dataset.namesmap["fake_label"]:
-			unreliable_count += 1
-		else:
-			unknown_count += 1
+		try:
+			# record: reliable or not?
+			reliable = record[dataset.namesmap["fake_attribute"]]
+			print("Record {}... ({})".format(i, reliable))
+			if reliable == dataset.namesmap["nonfake_label"]:
+				reliable_count += 1
+			elif reliable == dataset.namesmap["fake_label"]:
+				unreliable_count += 1
+			else:
+				unknown_count += 1
 
-		# applying feature's method "score" and passing the dataset's records attributes names (namesmap)
-		for feature in feats:
-			results[str(feature)][record[dataset.namesmap["fake_attribute"]]].append(feature.score(record, dataset.namesmap))
+			# applying feature's method "score" and passing the dataset's records attributes names (namesmap)
+			for feature in feats:
+				results[str(feature)][record[dataset.namesmap["fake_attribute"]]].append(feature.score(record))
 
-		# BREAK PER TROPPI RECORDS
-		i += 1
-		if i >= max_records:
-			break
+			# BREAK PER TROPPI RECORDS
+			i += 1
+			if i >= max_records:
+				break
+		# anything not ok (empty record / text): skip
+		except Exception:
+			skipped_count += 1
+			continue
 except KeyboardInterrupt:
+	skipped_count += 1
 	print("\nSkipping...")
 
 
 ''' RESULTS REDUCING & FORMATTING '''
 print("Done! Printing results\n")
-formt = "{:^" + str(output_tab_width) + ".5}"
+formt = "{:^" + str(output_tab_width) + "}"
+# applying feature's method "mean": passa 2 liste (scores unreliable e scores reliables; ottiene tupla (mean_unreliable, mean_reliable)
+reduced_results = [f.mean(results[str(f)][dataset.namesmap["fake_label"]], results[str(f)][dataset.namesmap["nonfake_label"]]) for f in feats]
+
 print("\t\t" + "\t\t".join([str(f) for f in feats]))
-# applying feature's method "mean"
-print("(" + str(unreliable_count) + ") unreliable\t" + "\t".join([formt.format(str(f.mean(results[str(f)][dataset.namesmap["fake_label"]]))) for f in feats]))
-print("(" + str(reliable_count) + ") reliable\t" + "\t".join([formt.format(str(f.mean(results[str(f)][dataset.namesmap["nonfake_label"]]))) for f in feats]))
-print("\n" + str(unknown_count) + " unknown\n" + str(i+1) + " tot records")
+print("(" + str(unreliable_count) + ") unreliable\t" + "\t".join([formt.format(result[0]) for result in reduced_results]))
+print("(" + str(reliable_count) + ") reliable\t" + "\t".join([formt.format(result[1]) for result in reduced_results]))
+print("\n" + str(unknown_count) + " unknown\n" + str(skipped_count) + " skipped\n" + str(i) + " processed records")
