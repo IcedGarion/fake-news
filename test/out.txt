@@ -1,14 +1,19 @@
 Processing records...
-Record 0... (1)
-Record 1... (0)
-Record 2... (1)
+*******************************************************
+***  WARNING!! OUT OF MEMORY! THERE WAS NOT ENOUGH  ***
+***  MEMORY TO RUN ALL PARSERS.  EITHER GIVE THE    ***
+***  JVM MORE MEMORY, SET THE MAXIMUM SENTENCE      ***
+***  LENGTH WITH -maxLength, OR PERHAPS YOU ARE     ***
+***  HAPPY TO HAVE THE PARSER FALL BACK TO USING    ***
+***  A SIMPLER PARSER FOR VERY LONG SENTENCES.      ***
+*******************************************************
 
 Skipping...
 Done! Printing results
 
-		lexical_variety		morfological_complexity
-(2) unreliable	       0.452        	        1.0         
-(1) reliable	       0.539        	        1.0         
+			lexical_variety		morfological_complexity
+(1718) unreliable	0.586		           0.382        
+(1673) reliable		0.511		           0.456        
 
 0 unknown
-3 tot records
+3363 tot records
