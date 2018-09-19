@@ -35,7 +35,7 @@ try:
 		try:
 			# record: reliable or not?
 			reliable = record[dataset.namesmap["fake_attribute"]]
-			print("Record {}... ({})".format(i, reliable))
+#			print("Record {}... ({})".format(i, reliable))
 			if reliable == dataset.namesmap["nonfake_label"]:
 				reliable_count += 1
 			elif reliable == dataset.namesmap["fake_label"]:
@@ -58,9 +58,9 @@ try:
 			# twitter rate limit exceeded: wait 15 min
 			try:
 				if e.message[0]["code"] == 88:
-					print("Waiting for limit to restore...")
+					print("Waiting for limit to restore... (record {})".format(i))
 					for t in range(0, 15):
-						print("Sleeping for 1 minute... {} to go".format(15-t))
+#						print("Sleeping for 1 minute... {} to go".format(15-t))
 						time.sleep(60)
 			except Exception:
 				print(e)
