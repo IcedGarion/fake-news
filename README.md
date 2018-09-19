@@ -34,9 +34,10 @@
 	   ma si puo' cambiare
 
 * twittersearch_count:
-	* SCORE: prende le prime `text_keyword_len` parole dal titolo del record (o, se < 2, dal testo)
+	* SCORE: prende le prime `text_keyword_len` parole dal titolo del record (o, se < 2, dal testo), toglie eventuali caratteri invalidi
 	   e fa la ricerca su twitter. Poi, conta il numero di tweets risultanti. 
-	   Numero di parole da usare per la ricerca si puo' cambiare.
+	   Numero di parole da usare per la ricerca puo' cambiare.
+	   Regex per caratteri da tenere (`nonkeywords_regex`) puo' cambiare. Si puo' decidere di togliere anche la punteggiatura
 	* MEAN: usa sempre lo stesso degli altri
 
 
