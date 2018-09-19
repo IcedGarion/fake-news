@@ -10,27 +10,27 @@ from pattern.metrics import ttr
 import re, os, twitter, functools, itertools
 
 
-class twittersearch_related:
-	def __init__(self):
-		pass
-		#self.api =twitter.Api(consumer_key="123", \
-		#		consumer_secret="123", \
-		#		access_token_key="123", \
-		#		access_token_secret="123")
-
-	def score(self, record, namesmap):
-		#print(self.api.VerifyCredentials())
-		#search = self.api.GetSearch(record[namesmap["title_attribute"]])
-		#for tweet in search:
-		#	print(tweet.id, twwet.text)
-		return 0
-
-	def mean(self, scores):
-		return 0
-
-	def __str__(self):
-		return "twittersearch_related"
-
+#class twittersearch_related:
+#	def __init__(self):
+#		pass
+#		#self.api =twitter.Api(consumer_key="123", \
+#		#		consumer_secret="123", \
+#		#		access_token_key="123", \
+#		#		access_token_secret="123")
+#
+#	def score(self, record, namesmap):
+#		#print(self.api.VerifyCredentials())
+#		#search = self.api.GetSearch(record[namesmap["title_attribute"]])
+#		#for tweet in search:
+#		#	print(tweet.id, twwet.text)
+#		return 0
+#
+#	def mean(self, scores):
+#		return 0
+#
+#	def __str__(self):
+#		return "twittersearch_related"
+#
 
 class morfological_complexity:
 	''' stanford parser: complexity of the sentences parsing tree '''
