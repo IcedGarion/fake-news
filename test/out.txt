@@ -3,10 +3,10 @@ Processing records...
 Skipping...
 Done! Printing results
 
-			lexical_variety		morfological_complexity
-(2027) unreliable	m 0.5907, std 0.2896	m 0.3621, std 0.3104
-(2082) reliable		m 0.5075, std 0.183	m 0.3966, std 0.185 
+			twittersearch_count
+(1976) unreliable	m 0.2683, std 1.533 
+(1931) reliable		m 0.2179, std 1.739 
 
 0 unknown
-31 skipped
-4078 processed records
+21 skipped
+3886 processed records

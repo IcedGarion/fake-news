@@ -32,5 +32,5 @@ class kagglecontest_dataset:
 	# riparte dal record 3363: cambiare
 	def __iter__(self):
 		for i, record in enumerate(self.values):
-			if i > 3363:
+			if i > 12000:
 				yield ({ name: value for name, value in zip(self.attributes, record)})
