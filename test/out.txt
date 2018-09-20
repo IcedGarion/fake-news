@@ -1,11 +1,12 @@
 Processing records...
+
 Skipping...
 Done! Printing results
 
-			twittersearch_count
-(565) unreliable	 m 0.262, std 1.56  
-(519) reliable		m 0.1937, std 1.838 
+			lexical_variety		morfological_complexity
+(2027) unreliable	m 0.5907, std 0.2896	m 0.3621, std 0.3104
+(2082) reliable		m 0.5075, std 0.183	m 0.3966, std 0.185 
 
 0 unknown
-128 skipped
-956 processed records
+31 skipped
+4078 processed records
