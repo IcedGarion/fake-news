@@ -38,7 +38,8 @@
 	   e fa la ricerca su twitter. Poi, conta il numero di tweets risultanti. 
 	   Numero di parole da usare per la ricerca puo' cambiare.
 	   Regex per caratteri da tenere (`nonkeywords_regex`) puo' cambiare. Si puo' decidere di togliere anche la punteggiatura
-	* MEAN: usa sempre lo stesso degli altri
+	* MEAN: questa volta fa una media normalizzata solo sul massimo locale (non massimo di unreliable+reliable, ma solo uno a seconda di cosa
+	   si sta calcolando); deviazione standard non normalizzata.
 
 
 # SYSTEM

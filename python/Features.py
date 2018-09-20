@@ -121,14 +121,16 @@ class twittersearch_count:
 #
 
 
+# non normalizza rispetto al massimo totale, ma rispetto ai singoli 2 massimi; stddev non normalizzata
 ''' Common function: mean / max_of_all + normalized stddev for unreliable and reliable score lists '''
 def normalized_mean_stddev(unreliable_scores, reliable_scores):
 	tot = []
 	tot.extend(unreliable_scores)
 	tot.extend(reliable_scores)
-	max_of_all = max(tot)
+	max_unreliable = max(unreliable_scores)
+	max_reliable = max(reliable_scores)
 	unreliable_mean = float(sum(unreliable_scores)) / len(unreliable_scores)
 	reliable_mean = float(sum(reliable_scores)) / len(reliable_scores)
-	return ("m {:.4}, std {:.4}".format(unreliable_mean / max_of_all, numpy.std(numpy.array(unreliable_scores)) / unreliable_mean), \
-		"m {:.4}, std {:.4}".format(reliable_mean / max_of_all, numpy.std(numpy.array(reliable_scores)) / reliable_mean))
+	return ("m {:.4}, std {:.4}".format(unreliable_mean / max_unreliable, numpy.std(numpy.array(unreliable_scores))), \
+		"m {:.4}, std {:.4}".format(reliable_mean / max_reliable, numpy.std(numpy.array(reliable_scores))))
 
