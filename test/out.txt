@@ -4,9 +4,9 @@ Skipping...
 Done! Printing results
 
 			twittersearch_count
-(979) unreliable	 m 0.27, std 41.66  
-(987) reliable		m 0.2067, std 37.09 
+(2771) unreliable	m 0.5327, std 46.77 
+(2847) reliable		m 0.5125, std 46.47 
 
 0 unknown
-11 skipped
-1955 processed records
+29 skipped
+5589 processed records

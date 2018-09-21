@@ -14,9 +14,9 @@ import numpy, re, os, twitter, functools, itertools
 class twittersearch_count:
 	def __init__(self, namesmap):
 		# parameters: record's first n words to be used as keyword; invalil words to be blanked
-		self.text_keyword_len = 4
+		self.text_keyword_len = 3
 		self.nonkeywords_regex = "\W*"
-		self.max_tweets = 100
+		self.max_tweets = 1000
 		self.namesmap = namesmap
 		self.api = twitter.Api(consumer_key="l6O1jveTxNDneHecEPg6CgcZU", \
 				consumer_secret="MsYcb7X0ilViZTYncvUCc3VrxjNhvMuAxQ2nvB2yjGx1CxvZJZ", \
