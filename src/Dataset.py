@@ -18,7 +18,7 @@ class kagglecontest_dataset:
 	            1: unreliable
 	            0: reliable
 	'''
-	def __init__(self, first_record=8000):
+	def __init__(self, first_record=8010):
 		self.first_record = first_record
 		# csv import
 		dataset_path = "/home/debian/UNIMI/InformationRetrieval/PROGETTO/fake-news/data/train.csv"
@@ -26,7 +26,7 @@ class kagglecontest_dataset:
 		self.attributes = data.keys()
 		self.values = data.values
 		# namesmap: label for the "reliable" / "unreliable" attribute, value for "unreliable", value for "reliable", label for "text"
-		self.namesmap = { "fake_attribute": "label", "fake_label": 1, "nonfake_label": 0, \
+		self.namesmap = { "id_attribute": "id", "fake_attribute": "label", "fake_label": 1, "nonfake_label": 0, \
 				"text_attribute": "text", "title_attribute": "title" }
 
 

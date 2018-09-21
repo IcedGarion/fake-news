@@ -31,6 +31,7 @@ Per utilizzare un nuovo dataset:
   Esempio:
 	{ nome_standard_attributo : nome_attributo_del_dataset, ... }
   I "nomi standard" degli attributi utilizzati nel resto del software sono (fornire almeno questi):
+	* id_attribute: nome dell'attributo con l'identificatore di record
 	* fake_attribute: nome dell'attributo che contiene l'etichetta fake / non fake
 	* fake_label: etichetta (del campo <fake_attribute>) usata per indicare che il record contiene una fake news (esempio, 1 per le fake)
 	* nonfake_label: etichetta usata per indicare che il record contiene una news attendibile (esempio, 0 per le nonfake)
@@ -96,18 +97,13 @@ per analizzare i risultati, utilizzare il notebook python "plot_results", che vi
 	* MEAN: usa sempre lo stesso degli altri
 
 
-# SYSTEM
+# ARCHITECTURE
 
 * Main: features_extraction.py
   Carica il dataset scelto, prepara le strutture dati, acquisisce tutte le features scritte nel file Features.py e poi fa scorrere tutti i record
-  Per ogni record, chiama tutte le features presenti, passandogli il record stesso (e una mappa contenente i nomi dei campi, presa dal dataset).
-  Le features produrranno uno SCORE basato sul record, e il main file salva li tutti nella struttura dati results.
-  Finiti i records (ci mette troppo; impostare un valore massimo di records passando un argomento numerico al programma, oppure CTRL^C mentre va),
-  si avra' una struttura con una lista di score per le reliable e una lista di scores per le unreliable, per ogni features.
-  Vengono divise due liste con le scores di notizie reliable e unreliable (fake). Poi queste 2 liste vengono passate a tutte le features:
-  ognuna le riduce ad un singolo valore con il metodo MEAN.
-  Poi il risultato viene presentato in una tabella, nella quale, per ogni feature, viene affiancata la media per le notizie reliable alla media
-  per le notizie unreliable.
+  Per ogni record, chiama tutte le features presenti, passandogli il record stesso; le features produrranno uno SCORE basato sul record.
+  Viene scritto un file per ogni feature (con relativo nome della feature), contenente, una riga per record: id, label (fake/non), score
+  I file verranno poi analizzati da un secondo componente, che plottera' i risultati.
 
 * Features: Features.py
   In questo file, tutte le "class ...x" presenti verranno caricate come features da utilizzare.
@@ -150,37 +146,3 @@ con notizie vere e false (annotate reliable / unreliable), estrarre diverse feat
 
 Per ogni news, usa il titolo (o una parte del testo) come ricerca per le api di twitter,
 per trovare il numero di tweet inerenti alla notizia.
-
-
-**SCOPRIRE SE:**
-
-Ci sono significativamente piu' (o meno) tweet correlati a notizie vere o correlati a quelle false?
-E quindi i tweet corrrelati sono una buona feature per discriminare le notizie vere da quelle false?
-
-Le fake news si possono riconoscere grazie ad una complessita' lessicale / morfologica particolarmente
-alta / bassa rispetto alle notizie vere?
-
-
-**COME FARE**
-
-Una volta estratte le features di cui sopra (che devono dare come risultato un numero 0/1), applicarle
-a tutte le notizie vere e tutte quelle false del dataset, dopo aver aggregato con medie, e poi
-produrre una tabella:
-
-type of news | feature1 | feature2 | feature3
------------- | -------- | -------- | --------
-reliable | 0.2 | 0.3 | 0.4
-unreliable | 0.21 | 0.3 | 0.9
-
-(come ridurre la lista di scores in un valore solo, e' specificato nella feature stessa "mean")
-
-Cosi' si nota se una certa feature ha un valore molto diverso fra notizie vere e false.
-Cerca di ottenere una feature che si comporta cosi', in modo da poi poterla approfondire.
-
-
-**SISTEMA**
-
-Cercare di scrivere un codice che permetta facilmente di testare, di inserire nuove features
-quando si vuole e di poterle provare producendo una tabella. (esempio, ogni feature e' una
-classe che estende una superclasse feature).
-
