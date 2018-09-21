@@ -1,11 +1,66 @@
 # CONFIGURATIONS
 
 * stanford parser path: python/Features.py -> `morfological_complexity.__init__` (parser_base_dir)
-* dataset path: python/Dataset.py -> `kagglecontest_dataset.__init__` (dataset_path)
-* twitter API tokens: python/Features.py -> `twittersearch_count.__init__`
-* results table width (when adding / removing features): python/`features_exploration.py.out_tab_width`
-* Call with number of rcords to be processed: `python python/features_exploration.py 20`
+    Serve stanford parser funzionante (es, parser/stanford-parser-full-2018-02-27/stanford_parser.jar)
+    e i modelli per l'inglese (parser/stanford-parser-full-2018-02-27/englishPCFG.ser.gz)
 
+* dataset path: python/Dataset.py -> `kagglecontest_dataset.__init__` (dataset_path)
+* ( twitter API tokens: python/Features.py -> `twittersearch_count.__init__` )
+
+
+# ADD NEW FEATURES
+
+Per aggiungere nuove metriche:
+
+* Scrivere una nuova classe <feature_x> nel file Features.py
+* implementare il metodo `__init__` con un parametro (namesmap) da salvarsi:
+  dict che contiene i nomi delle colonne del record, da utilizzare per dare lo score
+  (vedere sotto "dataset"; qua basta solo salvarsi il parametro).
+* implementare il metodo `score` che accetta un parametro (record): fare i calcoli dovuti 
+  sui campi del record e poi fornire come risultato un numero.
+* implementare il metodo __str__, che ritorna il nome della feature (serve per plottare i risultati).
+* Commentare / scommentare le classi nel file Features per escluderle / includerle dalla computazione
+
+
+# ADD NEW DATASET
+
+Per utilizzare un nuovo dataset:
+
+* Aggiungere una classe <dataset_x> al file Dataset.py
+* Nel metodo `__init__`, senza parametri, settare la variabile self.namesmap: un dizionario che rappresenta tutti i campi di un record.
+  Esempio:
+	{ nome_standard_attributo : nome_attributo_del_dataset, ... }
+  I "nomi standard" degli attributi utilizzati nel resto del software sono (fornire almeno questi):
+	* fake_attribute: nome dell'attributo che contiene l'etichetta fake / non fake
+	* fake_label: etichetta (del campo <fake_attribute>) usata per indicare che il record contiene una fake news (esempio, 1 per le fake)
+	* nonfake_label: etichetta usata per indicare che il record contiene una news attendibile (esempio, 0 per le nonfake)
+	* text_attribute: nome dell'attributo che rappresenta il testo principale della notizia
+	* title_attribute: attributo che contiene il titolo della notizia
+  Un esempio di namesmap, quindi, potrebbe essere:
+	{ "fake_attribute": "label", "fake_label": 1, "nonfake_label": 0, "text_attribute": "text", "title_attribute": "title" }
+* Importare i dovuti files e fornire un iteratore sui record: scrivere un metodo `__iter__` che ritorna, record per record,
+  un dizionario { nome_attributo : valore }.
+  Esempio:
+	`def __iter__(self):		
+		for i, record in enumerate(self.values):
+			yield ({ name: value for name, value in zip(self.attributes, record)})`
+* Nelle prime linee del main, features_extraction.py, impostare la variabile `dataset` con il dataset che si vuole usare
+  Esempio:
+	`from Dataset import *
+	dataset = kagglecontest_dataset()`
+
+
+# RUN
+
+`python features_extraction.py` fa partire il calcolo delle features (quelle non commentate) su tutto il dataset.
+Se i record sono molti, stoppare quando si vuole con CTRL^C.
+Non usare la feature "twittersearch" insieme ad altre features, perche' ogni 15 minuti bisogna fermarsi ad aspettare
+il ripristino del limite di richieste per le api twitter. (Tempo che non viene impiegato per calcolare le altre features, ma 
+rimane tutto fermo).
+L'esecuzione produrra' un file in cui sono contenuti i risultati delle scores di ogni features, per ogni record (out/results.csv):
+per analizzare i risultati, utilizzare il notebook python "plot_results", che visualizza i risutati con dei grafici.
+
+=================================================================================================================
 
 # PARAMETERS
 

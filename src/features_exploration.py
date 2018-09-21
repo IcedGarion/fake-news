@@ -1,10 +1,13 @@
-import sys, time
+import time
 
-''' SYSTEM PARAMETERS
-	call with # of records to be processed, or CTRL^C'''
-# 20800 records nel dataset; vanno limitati, altrimenti non finisce piu' (12+ sec a record)
-max_records = 4 if len(sys.argv) < 2 else int(sys.argv[1])
-output_tab_width = 20
+# non serve piu' stampare i risultati: scrivi un nuovo file notebook python che plotta il file prodotto da questo .py
+# quindi non serve piu' neanche il metodo "mean" delle features!
+# Il file sara' un csv, con una riga per ogni record, in cui ogni riga e':
+# id_record, label (fake/non), score_feature1, score_feature2, score_featuren
+# se usi una sola feature per run, e vuoi mettere i risultati in una nuova colonna (score_feature_k) insieme ad un file di out gia' esistente,
+# devi farlo a mano!
+
+# mettere la scrittura file nel ciclo; scrivere il nuovo notebook.
 
 
 ''' DATASET IMPORT '''
@@ -15,9 +18,16 @@ dataset = kagglecontest_dataset()
 ''' FEATURES IMPORT '''
 import Features, inspect
 feats = []
-for name, obj in inspect.getmembers(Features):	# se importi una classe in Features.py, compare anche qua... evita :(
+# se importi una classe in Features.py, compare anche qua... Da sistemare! magari estendere una superclasse Feature, e fare qua controllo tipo
+for name, obj in inspect.getmembers(Features):
 	if inspect.isclass(obj):
 		feats.append(obj(dataset.namesmap))
+
+
+
+''' OUT FILE '''
+# apri il file di out con pandas (tipo out/results.csv)
+
 
 
 ''' FEATURES EXPLORATION
@@ -30,7 +40,7 @@ unknown_count = 0
 skipped_count = 0
 i = 0
 try:
-	print("Processing records...")
+	print("Processing records... (CTRL^C to stop)")
 	for record in dataset:
 		try:
 			# record: reliable or not?
@@ -46,11 +56,8 @@ try:
 			# applying feature's method "score" and passing the dataset's records attributes names (namesmap)
 			for feature in feats:
 				results[str(feature)][record[dataset.namesmap["fake_attribute"]]].append(feature.score(record))
-
-			# BREAK PER TROPPI RECORDS
-			i += 1
-			if i >= max_records:
-					break
+# qua scrivi il risultato su file, invece che in memoria... scrivi record per record su file mentre calcola, non tutto alla fine!
+# usa pandas.write_csv o qialcosa di simile
 
 		# anything not ok (empty record / text): skip
 		except Exception as e:
@@ -73,13 +80,24 @@ except KeyboardInterrupt:
 	print("\nSkipping...")
 
 
-''' RESULTS REDUCING & FORMATTING '''
-print("Done! Printing results\n")
-formt = "{:^" + str(output_tab_width) + "}"
-# applying feature's method "mean": passa 2 liste (scores unreliable e scores reliables; ottiene tupla (mean_unreliable, mean_reliable)
-reduced_results = [f.mean(results[str(f)][dataset.namesmap["fake_label"]], results[str(f)][dataset.namesmap["nonfake_label"]]) for f in feats]
 
-print("\t\t\t" + "\t\t".join([str(f) for f in feats]))
-print("(" + str(unreliable_count) + ") unreliable\t" + "\t".join([formt.format(result[0]) for result in reduced_results]))
-print("(" + str(reliable_count) + ") reliable\t\t" + "\t".join([formt.format(result[1]) for result in reduced_results]))
-print("\n" + str(unknown_count) + " unknown\n" + str(skipped_count) + " skipped\n" + str(i) + " processed records")
+
+# non serve piu' stampare i risultati: scrivi un nuovo file notebook python che plotta il file prodotto da questo .py
+# quindi non serve piu' neanche il metodo "mean" delle features!
+# Il file sara' un csv, con una riga per ogni record, in cui ogni riga e':
+# id_record, label (fake/non), score_feature1, score_feature2, score_featuren
+# se usi una sola feature per run, e vuoi mettere i risultati in una nuova colonna (score_feature_k) insieme ad un file di out gia' esistente,
+# devi farlo a mano!
+
+
+''' RESULTS REDUCING & FORMATTING '''
+#print("Done! Printing results\n")
+#formt = "{:^" + str(output_tab_width) + "}"
+#output_tab_width = 20
+## applying feature's method "mean": passa 2 liste (scores unreliable e scores reliables; ottiene tupla (mean_unreliable, mean_reliable)
+#reduced_results = [f.mean(results[str(f)][dataset.namesmap["fake_label"]], results[str(f)][dataset.namesmap["nonfake_label"]]) for f in feats]
+#
+#print("\t\t\t" + "\t\t".join([str(f) for f in feats]))
+#print("(" + str(unreliable_count) + ") unreliable\t" + "\t".join([formt.format(result[0]) for result in reduced_results]))
+#print("(" + str(reliable_count) + ") reliable\t\t" + "\t".join([formt.format(result[1]) for result in reduced_results]))
+#print("\n" + str(unknown_count) + " unknown\n" + str(skipped_count) + " skipped\n" + str(i) + " processed records")

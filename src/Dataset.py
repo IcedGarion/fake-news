@@ -3,7 +3,7 @@
 	record is dict: { attribute_name: attribute_value }
 '''
 ''' want to plug in a new dataset? provide an iterator and a namesmap, like below,
-	then switch the dataset name in the main.py '''
+	then switch the dataset name in the main features_exploration.py '''
 
 import pandas
 
@@ -18,7 +18,7 @@ class kagglecontest_dataset:
 	            1: unreliable
 	            0: reliable
 	'''
-	def __init__(self, first_record=3363):
+	def __init__(self, first_record=8000):
 		self.first_record = first_record
 		# csv import
 		dataset_path = "/home/debian/UNIMI/InformationRetrieval/PROGETTO/fake-news/data/train.csv"
