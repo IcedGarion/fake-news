@@ -1,10 +1,9 @@
-''' Features class with score(record) and mean(scores) methods.
-	each feature returns a score based on a record (and a dict for dataset column names),
-	and has a method for reducing the list of obtained scores
-	into a single value.
-	"mean" accepts 2 lists and returns a tuple with 2 values: mean for unreliable scores; mean for reliable scores
+''' Features class with score(record) and __str__ method.
+	Each feature returns a score based on a record,
+	"score" accepts a record and returns a value for that record.
+	"__str__" returns the features' name
 '''
-''' want to plug in / out a feature? Simply write a new class or comment / uncomment it '''
+''' want to plug in / out a feature? Simply write a new class with "score" method or comment / uncomment it '''
 
 from nltk.parse import stanford
 from pattern.metrics import ttr
@@ -14,9 +13,9 @@ import numpy, re, os, twitter, functools, itertools
 class twittersearch_count:
 	def __init__(self, namesmap):
 		# parameters: record's first n words to be used as keyword; invalil words to be blanked
-		self.text_keyword_len = 3
+		self.text_keyword_len = 4
 		self.nonkeywords_regex = "\W*"
-		self.max_tweets = 1000
+		self.max_tweets = 100
 		self.namesmap = namesmap
 		self.api = twitter.Api(consumer_key="l6O1jveTxNDneHecEPg6CgcZU", \
 				consumer_secret="MsYcb7X0ilViZTYncvUCc3VrxjNhvMuAxQ2nvB2yjGx1CxvZJZ", \
@@ -38,13 +37,9 @@ class twittersearch_count:
 		# returns number of tweets from the search
 		return len(self.api.GetSearch(keywords, count=self.max_tweets))
 
-
-	def mean(self, unreliable_scores, reliable_scores):
-		# mean / max_of_all + normalized stddev for unreliable and reliable
-		return normalized_mean_stddev(unreliable_scores, reliable_scores)
-
 	def __str__(self):
 		return "twittersearch_count"
+
 
 
 #class morfological_complexity:
@@ -73,19 +68,10 @@ class twittersearch_count:
 #		# reduce sentences heights with max
 #		return functools.reduce(lambda x, y: max(x, y), itertools.chain(*[[sentence.height() for sentence in line] for line in parse_tree]))
 #
-#	def mean(self, unreliable_scores, reliable_scores):
-#		tot = []
-#		tot.extend(unreliable_scores)
-#		tot.extend(reliable_scores)
-#		max_of_all = max(tot)
-#		# mean / max_of_all + normalized stddev for unreliable and reliable
-#		unreliable_mean = float(sum(unreliable_scores) / len(unreliable_scores))
-#		reliable_mean = float(sum(reliable_scores) / len(reliable_scores))
-#		return ("m {:.4}, std {:.4}".format(unreliable_mean / max_of_all, numpy.std(numpy.array(unreliable_scores)) / unreliable_mean), \
-#			"m {:.4}, std {:.4}".format(reliable_mean / max_of_all, numpy.std(numpy.array(reliable_scores)) / reliable_mean))
-#
 #	def __str__(self):
 #		return "morfological_complexity"
+#
+#
 #
 #
 #class lexical_variety:
@@ -105,32 +91,5 @@ class twittersearch_count:
 #			if isinstance(record["text"], str) and len(record[self.namesmap["text_attribute"]]) > self.min_text \
 #			else 0
 #
-#	def mean(self, unreliable_scores, reliable_scores):
-#		tot = []
-#		tot.extend(unreliable_scores)
-#		tot.extend(reliable_scores)
-#		max_of_all = max(tot)
-#		# mean / max_of_all + normalized stddev for unreliable and reliable
-#		unreliable_mean = (sum(unreliable_scores) / len(unreliable_scores))
-#		reliable_mean = (sum(reliable_scores) / len(reliable_scores))
-#		return ("m {:.4}, std {:.4}".format(unreliable_mean / max_of_all, numpy.std(numpy.array(unreliable_scores)) / unreliable_mean), \
-#			"m {:.4}, std {:.4}".format(reliable_mean / max_of_all, numpy.std(numpy.array(reliable_scores)) / reliable_mean))
-#
 #	def __str__(self):
 #		return "lexical_variety"
-#
-
-
-# non normalizza rispetto al massimo totale, ma rispetto ai singoli 2 massimi; stddev non normalizzata
-''' Common function: mean / max_of_all + normalized stddev for unreliable and reliable score lists '''
-def normalized_mean_stddev(unreliable_scores, reliable_scores):
-	tot = []
-	tot.extend(unreliable_scores)
-	tot.extend(reliable_scores)
-	max_unreliable = max(unreliable_scores)
-	max_reliable = max(reliable_scores)
-	unreliable_mean = float(sum(unreliable_scores)) / len(unreliable_scores)
-	reliable_mean = float(sum(reliable_scores)) / len(reliable_scores)
-	return ("m {:.4}, std {:.4}".format(unreliable_mean / max_unreliable, numpy.std(numpy.array(unreliable_scores))), \
-		"m {:.4}, std {:.4}".format(reliable_mean / max_reliable, numpy.std(numpy.array(reliable_scores))))
-
