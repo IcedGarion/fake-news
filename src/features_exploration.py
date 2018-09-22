@@ -6,7 +6,7 @@ import os, time, pandas
 
 ''' DATASET IMPORT '''
 from Dataset import *
-dataset = kagglecontest_dataset()
+dataset = kagglecontest_dataset(4393)
 
 
 ''' FEATURES IMPORT '''
@@ -52,7 +52,7 @@ try:
 				dataframe = { "id": record[dataset.namesmap["id_attribute"]], \
 						"label": label, \
 						"score": feature.score(record) }
-				pandas.DataFrame.from_records([dataframe]).to_csv("out" + os.sep + out_files[i], header=False, mode='a')
+				pandas.DataFrame.from_records([dataframe], index="id").to_csv("out" + os.sep + out_files[i], header=False, mode='a')
 
 		# anything not ok (empty record / text): skip
 		except Exception as e:
