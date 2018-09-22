@@ -33,7 +33,7 @@ import numpy, re, os, twitter, functools, itertools
 #		keywords = [ word.decode('utf8').encode('ascii', errors='ignore').lower() for word in keywords \
 #				if re.sub(self.nonkeywords_regex, "", word) != "" ][:self.text_keyword_len]
 #		if len(keywords) <= 1:
-#			return 1
+#			raise Exception("Twittersearch: record text empty")
 #		# returns number of tweets from the search
 #		return len(self.api.GetSearch(keywords, count=self.max_tweets))
 #

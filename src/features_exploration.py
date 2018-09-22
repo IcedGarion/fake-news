@@ -6,7 +6,7 @@ import os, time, pandas
 
 ''' DATASET IMPORT '''
 from Dataset import *
-dataset = kagglecontest_dataset(4393)
+dataset = kagglecontest_dataset(4394)
 
 
 ''' FEATURES IMPORT '''
@@ -18,16 +18,19 @@ for name, obj in inspect.getmembers(Features):
 		feats.append(obj(dataset.namesmap))
 
 
-''' RESULTS FILE(s)
+''' RESULTS FILES
 	opens a file for each feature, naming them with a counter
 	+ writes the column names in each file'''
+out_path = "out" + os.sep
+preexistents = os.listdir(out_path)
 out_files = []
 for feature in feats:
 	filename = str(feature)
 	out_files.append(filename)
-	f = open("out" + os.sep + filename, 'w')
-	f.write("id,label,score\n")
-	f.close()
+	if filename not in preexistents:
+		f = open(out_path + filename, 'w')
+		f.write("id,label,score\n")
+		f.close()
 
 
 ''' FEATURES EXPLORATION
@@ -52,7 +55,7 @@ try:
 				dataframe = { "id": record[dataset.namesmap["id_attribute"]], \
 						"label": label, \
 						"score": feature.score(record) }
-				pandas.DataFrame.from_records([dataframe], index="id").to_csv("out" + os.sep + out_files[i], header=False, mode='a')
+				pandas.DataFrame.from_records([dataframe], index="id").to_csv(out_path + out_files[i], header=False, mode='a')
 
 		# anything not ok (empty record / text): skip
 		except Exception as e:
