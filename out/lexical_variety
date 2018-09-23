@@ -1,4 +1,4 @@
-id,label,score
+id,label,lexical_variety
 4394,fake,0.7227722772277227
 4395,fake,0.5047318611987381
 4396,not_fake,0.4272030651340996
