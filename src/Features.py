@@ -10,7 +10,16 @@ from pattern.metrics import ttr
 import numpy, re, os, twitter, functools, itertools
 
 
-#class twittersearch_count:
+class Feature:
+	def __init__(self, namesmap):
+		pass
+	def score(self, record):
+		pass
+	def __str__(self):
+		pass
+
+
+#class twittersearch_count(Feature):
 #	def __init__(self, namesmap):
 #		# parameters: record's first n words to be used as keyword; invalil words to be blanked
 #		self.text_keyword_len = 4
@@ -42,13 +51,13 @@ import numpy, re, os, twitter, functools, itertools
 
 
 
-class morfological_complexity:
+class morfological_complexity(Feature):
 	''' stanford parser: complexity of the sentences parsing tree '''
 
 	def __init__(self, namesmap):
 		self.namesmap = namesmap
 		# stanford parser setup
-		parser_base_dir = "/home/debian/UNIMI/InformationRetrieval/PROGETTO/fake-news/parser/stanford-parser-full-2018-02-27"
+		parser_base_dir = "parser/stanford-parser-full-2018-02-27"
 		modelpath = model_path=parser_base_dir + "/englishPCFG.ser.gz"
 		os.environ['CLASSPATH'] = parser_base_dir
 		os.environ['STANFORD_PARSER'] = parser_base_dir
@@ -74,7 +83,7 @@ class morfological_complexity:
 
 
 
-class lexical_variety:
+class lexical_variety(Feature):
 	''' pattern.metrics.ttr: average percentage of unique words (types)
 		for each n successive words (tokens) in the text.
 		https://www.clips.uantwerpen.be/pages/pattern-metrics'''

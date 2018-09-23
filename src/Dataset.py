@@ -21,7 +21,7 @@ class kagglecontest_dataset:
 	def __init__(self, first_record=8010):
 		self.first_record = first_record
 		# csv import
-		dataset_path = "/home/debian/UNIMI/InformationRetrieval/PROGETTO/fake-news/data/train.csv"
+		dataset_path = "data/train.csv"
 		data = pandas.read_csv(dataset_path, low_memory=False)
 		self.attributes = data.keys()
 		self.values = data.values

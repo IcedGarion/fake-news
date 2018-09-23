@@ -1,25 +1,33 @@
+# REQUIRED LIBRARIES
+
+* nltk (`pip install nltk`)
+* pattern (`pip install pattern`)
+* twitter (`pip install python-twitter`)
+
+
 # CONFIGURATIONS
 
-* stanford parser path: python/Features.py -> `morfological_complexity.__init__` (parser_base_dir)
+* stanford parser path: python/Features.py -> `morfological_complexity.__init__` (parser_base_dir) (default: ./parser)
     Serve stanford parser funzionante (es, parser/stanford-parser-full-2018-02-27/stanford_parser.jar)
     e i modelli per l'inglese (parser/stanford-parser-full-2018-02-27/englishPCFG.ser.gz)
 
-* dataset path: python/Dataset.py -> `kagglecontest_dataset.__init__` (dataset_path)
-* ( twitter API tokens: python/Features.py -> `twittersearch_count.__init__` )
+* dataset path: python/Dataset.py -> `kagglecontest_dataset.__init__` (dataset_path) (default ./data/train.csv)
+* ( twitter API tokens: python/Features.py -> `twittersearch_count.__init__` ) (gia' impostate ma si puo' impostare la propria)
 
 
 # ADD NEW FEATURES
 
 Per aggiungere nuove metriche:
 
-* Scrivere una nuova classe <feature_x> nel file Features.py
+* Scrivere una nuova classe <feature_x> che estende la class e"Feature" nel file Features.py
+	Esempio: class morfological_complexity(Feature): [...]
 * implementare il metodo `__init__` con un parametro (namesmap) da salvarsi:
   dict che contiene i nomi delle colonne del record, da utilizzare per dare lo score
   (vedere sotto "dataset"; qua basta solo salvarsi il parametro).
 * implementare il metodo `score` che accetta un parametro (record): fare i calcoli dovuti 
   sui campi del record e poi fornire come risultato un numero.
 * implementare il metodo __str__, che ritorna il nome della feature (serve per plottare i risultati).
-* Commentare / scommentare le classi nel file Features per escluderle / includerle dalla computazione
+* Commentare / scommentare le classi gia' presenti nel file Features per escluderle / includerle dalla computazione
 
 
 # ADD NEW DATASET

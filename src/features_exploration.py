@@ -12,9 +12,9 @@ dataset = kagglecontest_dataset(4397)
 ''' FEATURES IMPORT '''
 import Features, inspect
 feats = []
-# se importi una classe in Features.py, compare anche qua... Da sistemare! magari estendere una superclasse Feature, e fare qua controllo tipo
+# imports only the subclasses of "Feature"
 for name, obj in inspect.getmembers(Features):
-	if inspect.isclass(obj):
+	if inspect.isclass(obj) and issubclass(obj, Features.Feature) and obj != Features.Feature:
 		feats.append(obj(dataset.namesmap))
 
 
