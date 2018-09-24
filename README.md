@@ -61,14 +61,36 @@ Per utilizzare un nuovo dataset:
 
 # RUN
 
-`python features_extraction.py` fa partire il calcolo delle features (quelle non commentate) su tutto il dataset.
+`python src/features_extraction.py` fa partire il calcolo delle features (quelle non commentate) su tutto il dataset.
 Se i record sono molti, stoppare quando si vuole con CTRL^C.
 Non usare la feature "twittersearch" insieme ad altre features, perche' ogni 15 minuti bisogna fermarsi ad aspettare
 il ripristino del limite di richieste per le api twitter. (Tempo che non viene impiegato per calcolare le altre features, ma 
 rimane tutto fermo).
-L'esecuzione produrra' un file in cui sono contenuti i risultati delle scores di ogni features, per ogni record (out/results.csv):
+L'esecuzione produrra' un file per ogni feature in cui sono contenuti i risultati delle scores di quella feature, per ogni record:
 per analizzare i risultati, utilizzare il notebook python "plot_results", che visualizza i risutati con dei grafici.
 
+Ogni esecuzione consecutiva di features_extraction appende ai file gia' esistenti i record processati. Se si imposta, durante la
+creazione del dataset, un parametro numerico (opzionale; default 0), si puo' ripartire dall'ultimo record processato l'ultima volta:
+	Esempio:
+	`dataset = kagglecontest_dataset(0)`
+	... processa fino a quando viene fermato con CTRL^C fino al record (esempio) 1000.
+	Per riprendere a processare dal record 1001 alla prossima esecuzione, modificare:
+	`dataset = kagglecontest_dataset(1001)`
+
+Per permettere la scrittura a piu' riprese sugli stessi files, e per poter inserire diverse features alla volta (tranne twittersearch,
+che va sempre da sola) e' stato necessario utilizzare lo stesso nome della feature (definito dall'utente in --str--) per nominare i
+file di out e per il nome della colonna dello score della feature.
+	Esempio: feature "conta_vocali" -> conta_vocali.__str__(self): return "conta_voc"
+		produce un file di output nella directory out/ di nome "conta_voc" con 3 colonne: id, label, conta_voc (lo score).
+
+Per questi motivi la stringa che ritorna il metodo --str-- della feature non deve contenere caratteri strani, perche' poi diventera' un
+nome di file.
+
+
+plot_results invece visualizza i dati raccolti dalle varie esecuzioni di features_extraction:
+legge la cartella di out e fa una join di tutti i files presenti (quindi non ci deve essere nient'altro in questa directory, tranne
+i file di output che interessano).
+Poi disegna dei box plot e scatter plot.
 =================================================================================================================
 
 # PARAMETERS

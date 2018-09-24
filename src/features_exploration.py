@@ -1,12 +1,11 @@
 import os, time, pandas
 
-
 # output: un file csv per ogni feature, una riga per ogni record, in cui ogni riga e':
 # id_record, label (fake/non), score_feature_x
 
 ''' DATASET IMPORT '''
 from Dataset import *
-dataset = kagglecontest_dataset(4397)
+dataset = kagglecontest_dataset(0)
 
 
 ''' FEATURES IMPORT '''
@@ -16,6 +15,7 @@ feats = []
 for name, obj in inspect.getmembers(Features):
 	if inspect.isclass(obj) and issubclass(obj, Features.Feature) and obj != Features.Feature:
 		feats.append(obj(dataset.namesmap))
+print("Features found: {}".format([str(feature) for feature in feats]))
 
 
 ''' RESULTS FILES
@@ -29,8 +29,9 @@ for feature in feats:
 	out_files.append(filename)
 	if filename not in preexistents:
 		f = open(out_path + filename, 'w')
-		f.write("id,label,score\n")
+		f.write("id,label," + str(feature) + "\n")
 		f.close()
+print("Writing output results to {}".format([out_path + str(feature) for feature in feats]))
 
 
 ''' FEATURES EXPLORATION
@@ -41,7 +42,7 @@ skipped_count = 0
 count = 0
 
 try:
-	print("Processing records... (CTRL^C to stop)")
+	print("\nProcessing records... (CTRL^C to stop)")
 	for record in dataset:
 		try:
 			print("Record {}...".format(count))
@@ -75,4 +76,7 @@ try:
 
 except KeyboardInterrupt:
 	skipped_count += 1
-	print("\nSkipping...")
+	print("\n\nSkipping...")
+
+
+print("{} records processed.\nWritten {} lines in files: {}{}".format(count, (count-skipped_count), out_path, [str(feature) for feature in feats]))
