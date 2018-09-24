@@ -62,6 +62,9 @@ Per utilizzare un nuovo dataset:
 
 # RUN
 
+
+Dare sempre i comandi dalla directory src!
+
 `python src/features_extraction.py` fa partire il calcolo delle features (quelle non commentate) su tutto il dataset.
 Se i record sono molti, stoppare quando si vuole con CTRL^C.
 Non usare la feature "twittersearch" insieme ad altre features, perche' ogni 15 minuti bisogna fermarsi ad aspettare

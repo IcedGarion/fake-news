@@ -5,7 +5,7 @@ import os, time, pandas
 
 ''' DATASET IMPORT '''
 from Dataset import *
-dataset = kagglecontest_dataset(0)
+dataset = kagglecontest_dataset(5739)
 
 
 ''' FEATURES IMPORT '''
@@ -55,8 +55,9 @@ try:
 					else "not_fake"
 				dataframe = { "id": record[dataset.namesmap["id_attribute"]], \
 						"label": label, \
-						feature: feature.score(record) }
-				pandas.DataFrame.from_records([dataframe], index="id").to_csv(out_path + out_files[i], header=False, mode='a')
+						str(feature): feature.score(record) }
+				pandas.DataFrame.from_records([dataframe], index="id").to_csv(out_path + out_files[i], header=False, mode='a', \
+								columns=["label", str(feature)])
 
 		# anything not ok (empty record / text): skip
 		except Exception as e:
