@@ -3,6 +3,7 @@
 * nltk (`pip install nltk`)
 * pattern (`pip install pattern`)
 * twitter (`pip install python-twitter`)
+* matplotlib (`pip install matplotlib`)
 
 
 # CONFIGURATIONS
