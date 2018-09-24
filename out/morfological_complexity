@@ -1,4 +1,4 @@
-id,label,score
+id,label,morfological_complexity
 1,not_fake,23
 2,fake,28
 3,fake,22
