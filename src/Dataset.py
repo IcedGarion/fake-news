@@ -5,7 +5,7 @@
 ''' want to plug in a new dataset? provide an iterator and a namesmap, like below,
 	then switch the dataset name in the main features_exploration.py '''
 
-import pandas
+import os, pandas
 
 class kagglecontest_dataset:
 	'''	https://www.kaggle.com/c/fake-news/data
@@ -21,7 +21,7 @@ class kagglecontest_dataset:
 	def __init__(self, first_record=8010):
 		self.first_record = first_record
 		# csv import
-		dataset_path = "data/train.csv"
+		dataset_path = ".." + os.sep + "data" + os.sep + "train.csv"
 		data = pandas.read_csv(dataset_path, low_memory=False)
 		self.attributes = data.keys()
 		self.values = data.values

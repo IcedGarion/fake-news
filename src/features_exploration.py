@@ -21,7 +21,7 @@ print("Features found: {}".format([str(feature) for feature in feats]))
 ''' RESULTS FILES
 	opens a file for each feature, naming them with a counter
 	+ writes the column names in each file'''
-out_path = "out" + os.sep
+out_path = ".." + os.sep + "out" + os.sep
 preexistents = os.listdir(out_path)
 out_files = []
 for feature in feats:
