@@ -5,7 +5,7 @@ import os, time, pandas
 
 ''' DATASET IMPORT '''
 from Dataset import *
-dataset = kagglecontest_dataset(5739)
+dataset = kagglecontest_dataset(0)
 
 
 ''' FEATURES IMPORT '''
