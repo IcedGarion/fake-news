@@ -1,26 +1,109 @@
 \documentclass{article}
-\usepackage{multicol}				%per usare multicols {2}
-\title{Fake News Analysis}			% titolo iniziale
+\usepackage{multicol}
+\usepackage{hyperref}
+
+\title{Fake News Analysis}
 
 \begin{document}
-	\pagenumbering{arabic}			% numeri di pagina
-	\maketitle						% inserisce titolo \title{}}
+	\pagenumbering{arabic}
+	\maketitle   
 	
-    
-    \newpage						% nuova pag
-    \begin{multicols}{2}			% divide pagina in 2 colonne
-    	\section{Introduzione}
-	    	In questo documento verra' affrontata la tematica dell'individuazione delle Fake News, con particolare attenzione rivolta all'analisi lessicale e di come sia possibile discriminare le notizie vere da quelle false basandosi su tecniche di Natural Language Processing.
+	\section{Cose da chiedere}
+		Struttura documento? Capitoli ecc..
+		
+		Dettagli implementazione? spiegare come poter inserire nuove features e nuovo dataset dettagliatamente; parametri utilizzati e come si possono cambiare; 
+		
+	\section{Cose da fare}
+	Section Features: spiega logica dietro alle features (mancano 2)
+	Implementazione features: spiega come implementate (mancano le stesse 2)
+		Metti immagini e risultati ottenuti
+		
+	Scopri come mettere gli spazi fra i paragrafi e mettili un po' ovunque
+	
+	Dataset
+	Combinazione features
+	
+	 
+    \newpage
+    	
+   	\section{Introduzione}
+    	In questo documento verrà affrontata la tematica dell'individuazione delle Fake News, con particolare attenzione rivolta all'analisi lessicale e di come sia possibile discriminare le notizie vere da quelle false basandosi su tecniche di Natural Language Processing.
 	    	
-	    	Il documento presenta, nella prima parte, un'analisi esplorativa delle "features": caratteristiche estraibili dalle notizie che possono essere sfruttate per discriminare quelle vere da quelle false. Ne sono presentate diverse e, per ciascuna, viene evidenziato se si tratta di una caratteristica discriminante o meno.
-	    	Nella seconda parte, alcune di queste features vengono utilizzate per rilevare le Fake News, in particolare basandosi su caratteristiche intrinseche nel testo e nelle parole che compongono la notizia.
+	    Il documento presenta, nella prima parte, un'analisi esplorativa delle \textbf{"features"}: caratteristiche estraibili dalle notizie che possono essere sfruttate per distinguere quelle vere dalle false. Ne sono presentate diverse e, per ciascuna, viene evidenziato se si tratta di una caratteristica discriminante o meno.
+	    Nella seconda parte, alcune di queste features vengono utilizzate per rilevare le Fake News, in particolare basandosi su caratteristiche intrinseche nel testo e nelle parole che compongono la notizia.
 	    	
-	    	Una volta isolate alcune Fake News, si procede ad analizzarne manualmente il testo per cercare ulteriori indicatori o eventuali anomalie presenti.
-	    \section{s2}
-	    \subsection{ss2}
-		    ssssss
-		    ssssss
+	    Una volta isolate alcune Fake News, si procede ad analizzarne manualmente il testo per cercare ulteriori indicatori o eventuali anomalie presenti.
+	    
+	    \newpage
+	    
+    \begin{multicols}{2}
+	    \section{Fake News}
+			Come ormai noto e documentato, le Fake News sono state utilizzate per influenzare l'opinione pubblica, per manipolare il risultato di elezioni politiche e in generale per modificare il comportamento delle persone in modo da favorire, in qualche modo, gli interessi di chi le mette in circolazione.
+			Negli ultimi anni si e' cercato di migliorare lo sviluppo di applicazioni che potessero riconoscerle e segnalarle il più tempestivamente possibile, direttamente sui social o grazie a plugin per browser. La tecnologia sembra essere ormai matura per permettere una classificazione molto precisa (alcune applicazioni vantano una precisione dell'80\%, o addirittura 95\%) \cite{fakenewschallenge} e, anche se sono gia' disponibili dei software, le fake news continuano a proliferare.
+			Sono state pubblicate ricerche e sondaggi, sono stati resi disponibili una grande quantità di dataset già classificati e si tengono periodicamente dei contest pubblici in cui gli sviluppatori propongono soluzioni sempre più precise; i dati e la tecnologia permettono ormai a chiunque di esplorare nuove soluzioni.
+			
+			\subsection{Individuazione}
+			Il concetto principale da sviluppare per riconoscere una fake news è individuare delle caratteristiche peculiari che potrebbero, in maniera molto generale, appartenere alla categoria delle notizie false ma non appartenere a quelle vere. Se si volesse costruire un classificatore, sarebbe necessario, in fase preliminare, definire appunto su quali caratteristiche basare la distinzione: per esempio, se si scoprisse analiticamente che gran parte delle fake news utilizza un certo tipo di lessico oppure è formata da frasi molto (o molto poco) complesse, allora si potrebbe sviluppare un software che estragga queste caratteristiche dalle notizie e, per via di un training appropriato, che riesca a classificarle nella giusta categoria a seconda della caratteristica considerata.
+			Non è purtroppo un compito immediato identificare una qualità discriminante, che potrebbe risultare valida soltanto per alcuni sottoinsiemi delle notizie considerate e che comunque si potrebbe rivelare non più valida col passare del tempo; in questo documento verranno esplorate alcune di queste caratteristiche per cercare di scoprire, per quanto possibile, se si tratta di peculiarità che possono aiutare nella classificazione.
+	    
+	    \section{Features}
+		    Verrà utilizzato il termine \textbf{"feature"} per indicare le diverse caratteristiche pensate che possono aiutare a distinguere le notizie.
 		    
-   	\end{multicols}
+			Sono state individuate inizialmente 3 feature, che si pensava potessero discriminare in parte le notizie vere dalle Fake News: varietà lessicale, complessità morfologica e "quantità di tweet correlati". 
+			La scelta di queste e' stata guidata da alcune intuizioni: si e' supposto che le Fake News potessero avere una forma linguistica meno complessa ed articolata delle notizie vere, principalmente perché non scritte da professionisti del campo; inoltre le Fake News potrebbero essere molto popolari su Twitter e quindi avere molti più risultati nelle ricerche rispetto alle notizie vere.
+			
+			
+			
+			Ogni feature, applicata ad una notizia, analizza la stessa e produce un risultato numerico che ne indica il valore.
+			
+			\textbf{Varietà lessicale}: rappresenta il numero di vocaboli diversi utilizzati all'interno della notizia. Notizie molto brevi e con parole tutte diverse hanno quindi un valore molto alto di questa feature, che e' espressa come un numero decimale fra 0 e 1.
+			
+			\textbf{Complessità morfologica}: analisi della struttura delle frasi che compongono la notizia e del loro albero di parsing, per determinare un valore che indichi quanto e' complessa, quante frasi la compongono e come sono intrecciate fra loro.
+			Si è ipotizzato che le notizie false potessero essere scritte in modo meno preciso, complesso, in quanto non redatte da professionisti del mestiere come giornalisti o scrittori; ma ci si potrebbe anche aspettare l'opposto: considerata l'importanza che hanno ormai assunto le Fake News nella società e i capitali che smuovono, chi le scrive potrebbe essere costantemente aggiornato sui risultati ottenuti nel campo della classificazione delle notizie e comportarsi di conseguenza, adattando lo stile di scrittura per eludere i classificatori che fanno leva su alcune particolari caratteristiche della notizia.
+			
+			
+			\textbf{Quantità di tweet correlati}: per ogni notizia sono state inserite le prime parole nella ricerca di Twitter, per poi contare quanti risultati ha prodotto la ricerca.
+
+
+			
+	    
+		    
+	    \section{Implementazione}
+		    Il sistema e' stato implementato in modo da poter inserire, in qualsiasi momento, una nuova feature ed analizzare i risultati ottenuti; è anche possibile cambiare facilmente il dataset fornendo alcune informazioni per poterlo subito integrare.
+		    
+		    L'intero codice del progetto si trova su bitbucket: 
+		    \href{https://bitbucket.org/IcedGarion/fake-news}{fake-news repository}. 
+		    
+			\subsection{Dataset}
+			Spiegazione dataset utilizzato, cosa (e quanti record) contiene, come sono fatti i record e spiegazione delle "colonne"; usate solo 2 o 3
+			
+			\subsection{Features Extraction}
+			Di seguito verranno descritte dettagliatamente le features la loro implementazione.
+			Ciascuna viene applicata a tutte le notizie del dataset e poi sono proposti i risultati ottenuti sotto forma di grafici esplicativi. Per ogni feature, sono presenti due \textbf{istogrammi} che rappresentano la distribuzione dei valori della caratteristica sia per le notizie etichettate nel dataset come "affidabili" (non fake) che per quelle "non affidabili" (fake); è prodotto anche un \textbf{boxplot}, per meglio analizzare la distribuzione, sempre in duplice istanza per le notizie vere e false. 
+			Avendo i grafici divisi per le due classi di notizie, è facile capire se la feature pensata è un buon discriminatore: basta guardare se ci sono differenze percettibili nella distribuzione dei valori fra i due grafici.
+			Più avanti sono anche proposti degli \textbf{scatterplot}, per visualizzare se ci sono interdipendenze fra le features.
+			
+				\subsubsection{Morfological Complexity}
+					Viene analizzata la morfologia della frase, ovvero la struttura grammaticale delle parole e la loro categorizzazione in nome, pronome, verbo, aggettivo. Sono evidenziati soprattutto i legami che questi elementi hanno fra loro all'interno della frase: più la struttura è complessa e più la frase risulta scritta in modo preciso e formale. 
+					Per stimare, con un valore numerico, la complessità morfologica di una notizia, è stato utilizzato Stanford Parser \cite{stanfordparser}: analizza un testo e, per ogni frase, crea l'albero di parsing, individuando la struttura morfologica. Considerando poi la profondità dell'albero prodotto, si può valutare quanto la frase sia morfologicamente complessa.
+					Per ogni frase che compone la notizia viene calcolata questa profondità e poi si registra il valore massimo ottenuto in tutte le frasi: quello è il risultato della feature "morfological complexity".
+					
+					
+					FOTO HISTOGRAM E ALTRO
+					
+				\subsubsection{Twitter}
+				\subsubsection{Lexical Variety}
+				
+				\subsubsection{Combinazione Features}
+				Spiegazione scatterplot e come si è pensato che una sola feature non basti, ma serve prenderne 2 a 2 per vedere se, per esempio, basso valore di 1 combinato con basso (/alto) valore di un alta produce la distinzione voluta.
+	
+	
+	   	\end{multicols}		    
+		\begin{thebibliography}{9}
+			\bibitem{fakenewschallenge}
+				http://www.fakenewschallenge.org/
+			\bibitem{stanfordparser}
+				 Sebastian Schuster and Christopher D. Manning. 2016. Enhanced English Universal Dependencies: An Improved Representation for Natural Language Understanding Tasks. In LREC 2016. 
+		\end{thebibliography}
 
 \end{document}

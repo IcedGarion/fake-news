@@ -25,7 +25,7 @@ Per aggiungere nuove metriche:
 * implementare il metodo `__init__` con un parametro (namesmap) da salvarsi:
   dict che contiene i nomi delle colonne del record, da utilizzare per dare lo score
   (vedere sotto "dataset"; qua basta solo salvarsi il parametro).
-* implementare il metodo `score` che accetta un parametro (record): fare i calcoli dovuti 
+* implementare il metodo `score` che accetta un parametro (record): fare i calcoli dovuti
   sui campi del record e poi fornire come risultato un numero.
 * implementare il metodo __str__, che ritorna il nome della feature (serve per plottare i risultati).
 * Commentare / scommentare le classi gia' presenti nel file Features per escluderle / includerle dalla computazione
@@ -51,7 +51,7 @@ Per utilizzare un nuovo dataset:
 * Importare i dovuti files e fornire un iteratore sui record: scrivere un metodo `__iter__` che ritorna, record per record,
   un dizionario { nome_attributo : valore }.
   Esempio:
-	`def __iter__(self):		
+	`def __iter__(self):
 		for i, record in enumerate(self.values):
 			yield ({ name: value for name, value in zip(self.attributes, record)})`
 * Nelle prime linee del main, features_extraction.py, impostare la variabile `dataset` con il dataset che si vuole usare
