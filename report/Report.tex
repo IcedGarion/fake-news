@@ -1,6 +1,9 @@
 \documentclass{article}
 \usepackage{multicol}
 \usepackage{hyperref}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+
 
 \title{Fake News Analysis}
 
@@ -13,15 +16,22 @@
 		
 		Dettagli implementazione? spiegare come poter inserire nuove features e nuovo dataset dettagliatamente; parametri utilizzati e come si possono cambiare; 
 		
+		Conclusioni: morfological + lexical potrebbe funzionare? 
+		
+		Dove mettere il fatto che si è isolata un'area di scatterplot in cui ci sono solo fake news? (e che sono state analizzate)
+		
 	\section{Cose da fare}
 	Section Features: spiega logica dietro alle features (mancano 2)
-	Implementazione features: spiega come implementate (mancano le stesse 2)
-		Metti immagini e risultati ottenuti
-		
-	Scopri come mettere gli spazi fra i paragrafi e mettili un po' ovunque
+	Implementazione features: tanti dettagli su come implementate (mancano le stesse 2)
+	Metti immagini e risultati ottenuti! 
 	
-	Dataset
+	Fai tutti gli screenshot dei grafici e metti in directory
+	
 	Combinazione features
+	
+		Scopri come mettere gli spazi fra i paragrafi (paragraph?) e mettili un po' ovunque
+		Più grassetto, italic, spazi e foto in giro... Poco leggibile così
+		Gli accenti non funzionano
 	
 	 
     \newpage
@@ -50,23 +60,17 @@
 		    Verrà utilizzato il termine \textbf{"feature"} per indicare le diverse caratteristiche pensate che possono aiutare a distinguere le notizie.
 		    
 			Sono state individuate inizialmente 3 feature, che si pensava potessero discriminare in parte le notizie vere dalle Fake News: varietà lessicale, complessità morfologica e "quantità di tweet correlati". 
-			La scelta di queste e' stata guidata da alcune intuizioni: si e' supposto che le Fake News potessero avere una forma linguistica meno complessa ed articolata delle notizie vere, principalmente perché non scritte da professionisti del campo; inoltre le Fake News potrebbero essere molto popolari su Twitter e quindi avere molti più risultati nelle ricerche rispetto alle notizie vere.
+			La scelta di queste e' stata guidata da alcune intuizioni: si e' supposto che le Fake News potessero avere una forma linguistica meno complessa ed articolata delle notizie vere, principalmente perché non scritte da professionisti; inoltre le Fake News potrebbero essere molto popolari su Twitter e quindi avere molti più risultati nelle ricerche rispetto alle notizie vere.
+					
 			
-			
-			
-			Ogni feature, applicata ad una notizia, analizza la stessa e produce un risultato numerico che ne indica il valore.
-			
-			\textbf{Varietà lessicale}: rappresenta il numero di vocaboli diversi utilizzati all'interno della notizia. Notizie molto brevi e con parole tutte diverse hanno quindi un valore molto alto di questa feature, che e' espressa come un numero decimale fra 0 e 1.
-			
+			\textbf{Quantità di tweet correlati}: per ogni notizia sono state inserite le prime parole nella ricerca di Twitter, per poi contare quanti risultati ha prodotto la ricerca. La logica dietro a questa feature è cercare di capire se il titolo o l'inizio della notizia riscuote particolare successo sui social, ovvero se in generale c'è molta più discussione intorno a notizie non confermate rispetto a quelle vere. Per come è stata concepita la feature, però, risulta difficile individuare quali termini utilizzare per la ricerca, dato che l'uso di troppe parole non produce mai nessun risultato.
+					
 			\textbf{Complessità morfologica}: analisi della struttura delle frasi che compongono la notizia e del loro albero di parsing, per determinare un valore che indichi quanto e' complessa, quante frasi la compongono e come sono intrecciate fra loro.
 			Si è ipotizzato che le notizie false potessero essere scritte in modo meno preciso, complesso, in quanto non redatte da professionisti del mestiere come giornalisti o scrittori; ma ci si potrebbe anche aspettare l'opposto: considerata l'importanza che hanno ormai assunto le Fake News nella società e i capitali che smuovono, chi le scrive potrebbe essere costantemente aggiornato sui risultati ottenuti nel campo della classificazione delle notizie e comportarsi di conseguenza, adattando lo stile di scrittura per eludere i classificatori che fanno leva su alcune particolari caratteristiche della notizia.
 			
-			
-			\textbf{Quantità di tweet correlati}: per ogni notizia sono state inserite le prime parole nella ricerca di Twitter, per poi contare quanti risultati ha prodotto la ricerca.
+			\textbf{Varietà lessicale}: rappresenta il numero di vocaboli diversi utilizzati all'interno della notizia. Notizie molto brevi e con parole tutte diverse hanno quindi un valore molto alto per questa feature, che e' espressa come un numero decimale fra 0 e 1.
+			Combinata con la complessità morfologica, fornisce una quadro abbastanza ampio dello stile di scrittura del redattore della notizia.
 
-
-			
-	    
 		    
 	    \section{Implementazione}
 		    Il sistema e' stato implementato in modo da poter inserire, in qualsiasi momento, una nuova feature ed analizzare i risultati ottenuti; è anche possibile cambiare facilmente il dataset fornendo alcune informazioni per poterlo subito integrare.
@@ -75,11 +79,14 @@
 		    \href{https://bitbucket.org/IcedGarion/fake-news}{fake-news repository}. 
 		    
 			\subsection{Dataset}
-			Spiegazione dataset utilizzato, cosa (e quanti record) contiene, come sono fatti i record e spiegazione delle "colonne"; usate solo 2 o 3
+			Durante l'intero progetto si è utilizzato un dataset proposto da kaggle per un contest di machine learning riguardante la classificazione di fake news \cite{kaggledataset}. Il dataset presenta 20800 articoli caratterizzati da titolo, autore, testo della notizia ed etichetta (fake / non fake) e contiene notizie di vario genere, da articoli di giornale a tweet; le notizie etichettate come non fake provengono da fonti considerate affidabilic come testate giornalistiche. I record sono equamente distribuiti in 10413 fake e 10387 non fake.
+			
+			È comunque possibile cambiare facilmente dataset ed eseguire il software in modo che produca i risultati per le feature che si vogliono considerare, applicate ai nuovi record, in modo che vengano prodotti nuovi grafici relativi ai nuovi dati.
+			
 			
 			\subsection{Features Extraction}
 			Di seguito verranno descritte dettagliatamente le features la loro implementazione.
-			Ciascuna viene applicata a tutte le notizie del dataset e poi sono proposti i risultati ottenuti sotto forma di grafici esplicativi. Per ogni feature, sono presenti due \textbf{istogrammi} che rappresentano la distribuzione dei valori della caratteristica sia per le notizie etichettate nel dataset come "affidabili" (non fake) che per quelle "non affidabili" (fake); è prodotto anche un \textbf{boxplot}, per meglio analizzare la distribuzione, sempre in duplice istanza per le notizie vere e false. 
+			Ciascuna viene applicata a tutte le notizie del dataset e produce un valore numerico; sono poi proposti i risultati ottenuti sotto forma di grafici esplicativi. Per ogni feature, sono presenti due \textbf{istogrammi} che rappresentano la distribuzione dei valori della caratteristica sia per le notizie etichettate nel dataset come "affidabili" (non fake) che per quelle "non affidabili" (fake); è prodotto anche un \textbf{boxplot}, per meglio analizzare la distribuzione, sempre in duplice istanza per le notizie vere e false. 
 			Avendo i grafici divisi per le due classi di notizie, è facile capire se la feature pensata è un buon discriminatore: basta guardare se ci sono differenze percettibili nella distribuzione dei valori fra i due grafici.
 			Più avanti sono anche proposti degli \textbf{scatterplot}, per visualizzare se ci sono interdipendenze fra le features.
 			
@@ -87,21 +94,30 @@
 					Viene analizzata la morfologia della frase, ovvero la struttura grammaticale delle parole e la loro categorizzazione in nome, pronome, verbo, aggettivo. Sono evidenziati soprattutto i legami che questi elementi hanno fra loro all'interno della frase: più la struttura è complessa e più la frase risulta scritta in modo preciso e formale. 
 					Per stimare, con un valore numerico, la complessità morfologica di una notizia, è stato utilizzato Stanford Parser \cite{stanfordparser}: analizza un testo e, per ogni frase, crea l'albero di parsing, individuando la struttura morfologica. Considerando poi la profondità dell'albero prodotto, si può valutare quanto la frase sia morfologicamente complessa.
 					Per ogni frase che compone la notizia viene calcolata questa profondità e poi si registra il valore massimo ottenuto in tutte le frasi: quello è il risultato della feature "morfological complexity".
+					Al parser viene dato in input tutto il testo della notizia, senza modifiche o preprocessing; l'unica modifica apportata riguarda la divisione dell'intero testo in frasi, necessario per utilizzare la funzione desiderata, ed è stata effettuata dividendo tramite un'espressione regolare che indica la punteggiatura di fine frase.
 					
+					\textbf{DISTRIBUZIONE FEATURE}	
+					\includegraphics{morfological_hist}
+									
 					
-					FOTO HISTOGRAM E ALTRO
 					
 				\subsubsection{Twitter}
 				\subsubsection{Lexical Variety}
+					... Il testo non viene manipolato: non è stata eseguita nessuna fase di preprocessing in cui le frasi vengono tokenizzate e parole non sono sottoposte a stemming, per preservare la forma originale in cui è scritta la notizia ...
 				
 				\subsubsection{Combinazione Features}
 				Spiegazione scatterplot e come si è pensato che una sola feature non basti, ma serve prenderne 2 a 2 per vedere se, per esempio, basso valore di 1 combinato con basso (/alto) valore di un alta produce la distinzione voluta.
+				
+
+		\section{Conclusioni}
 	
 	
 	   	\end{multicols}		    
 		\begin{thebibliography}{9}
 			\bibitem{fakenewschallenge}
-				http://www.fakenewschallenge.org/
+				https://www.fakenewschallenge.org/
+			\bibitem{kaggledataset}
+				https://www.kaggle.com/c/fake-news/
 			\bibitem{stanfordparser}
 				 Sebastian Schuster and Christopher D. Manning. 2016. Enhanced English Universal Dependencies: An Improved Representation for Natural Language Understanding Tasks. In LREC 2016. 
 		\end{thebibliography}
