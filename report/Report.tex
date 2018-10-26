@@ -5,34 +5,11 @@
 \graphicspath{ {./images/} }
 
 
-\title{Fake News Analysis}
+\title{Fake News Analysis: features exploration}
 
 \begin{document}
 	\pagenumbering{arabic}
 	\maketitle   
-	
-	\section{Cose da chiedere}
-		Struttura documento? Capitoli ecc..
-		
-		Dettagli implementazione? spiegare come poter inserire nuove features e nuovo dataset dettagliatamente; parametri utilizzati e come si possono cambiare; 
-		
-		Conclusioni: morfological + lexical potrebbe funzionare? 
-		
-		Dove mettere il fatto che si è isolata un'area di scatterplot in cui ci sono solo fake news? (e che sono state analizzate)
-		
-	\section{Cose da fare}
-	Section Features: spiega logica dietro alle features (mancano 2)
-	Implementazione features: tanti dettagli su come implementate (mancano le stesse 2)
-	Metti immagini e risultati ottenuti! 
-	
-	Fai tutti gli screenshot dei grafici e metti in directory
-	
-	Combinazione features
-	
-		Scopri come mettere gli spazi fra i paragrafi (paragraph?) e mettili un po' ovunque
-		Più grassetto, italic, spazi e foto in giro... Poco leggibile così
-		Gli accenti non funzionano
-	
 	 
     \newpage
     	
@@ -97,20 +74,40 @@
 					Al parser viene dato in input tutto il testo della notizia, senza modifiche o preprocessing; l'unica modifica apportata riguarda la divisione dell'intero testo in frasi, necessario per utilizzare la funzione desiderata, ed è stata effettuata dividendo tramite un'espressione regolare che indica la punteggiatura di fine frase.
 					
 					\textbf{DISTRIBUZIONE FEATURE}	
-					\includegraphics{morfological_hist}
-									
+					\includegraphics[width=\linewidth]{morfological_hist_fake}
+					\includegraphics[width=\linewidth]{morfological_hist_notfake}
+					\includegraphics[width=\linewidth]{morfological_box}
 					
 					
 				\subsubsection{Twitter}
+				\textbf{DISTRIBUZIONE FEATURE}	
+				\includegraphics[width=\linewidth]{twitter_hist_fake}
+				\includegraphics[width=\linewidth]{twitter_hist_notfake}
+				\includegraphics[width=\linewidth]{twitter_box}
+				
+				Variante: usate le prime 3 parole per la ricerca (stesso risultato)
+				\includegraphics[width=\linewidth]{twitter3_hist_fake}
+				\includegraphics[width=\linewidth]{twitter3_hist_notfake}
+				\includegraphics[width=\linewidth]{twitter3_box}
+				
 				\subsubsection{Lexical Variety}
-					... Il testo non viene manipolato: non è stata eseguita nessuna fase di preprocessing in cui le frasi vengono tokenizzate e parole non sono sottoposte a stemming, per preservare la forma originale in cui è scritta la notizia ...
+				... Il testo non viene manipolato: non è stata eseguita nessuna fase di preprocessing in cui le frasi vengono tokenizzate e parole non sono sottoposte a stemming, per preservare la forma originale in cui è scritta la notizia ...
+								
+				\textbf{DISTRIBUZIONE FEATURE}	
+					
+				\includegraphics[width=\linewidth]{lexical_hist_fake}
+				\includegraphics[width=\linewidth]{lexical_hist_notfake}
+				\includegraphics[width=\linewidth]{lexical_box}
 				
 				\subsubsection{Combinazione Features}
 				Spiegazione scatterplot e come si è pensato che una sola feature non basti, ma serve prenderne 2 a 2 per vedere se, per esempio, basso valore di 1 combinato con basso (/alto) valore di un alta produce la distinzione voluta.
 				
+				\includegraphics[width=\linewidth]{twitter_morfological_scatter}
+				\includegraphics[width=\linewidth]{lexical_twitter_scatter}
+				\includegraphics[width=\linewidth]{lexical_morfological_scatter}
+				
 
-		\section{Conclusioni}
-	
+		\section{Conclusioni}	
 	
 	   	\end{multicols}		    
 		\begin{thebibliography}{9}
@@ -121,5 +118,30 @@
 			\bibitem{stanfordparser}
 				 Sebastian Schuster and Christopher D. Manning. 2016. Enhanced English Universal Dependencies: An Improved Representation for Natural Language Understanding Tasks. In LREC 2016. 
 		\end{thebibliography}
+	
+		\newpage
+		
+			\section{Cose da chiedere}
+		Struttura documento? Capitoli ecc..
+		
+		Dettagli implementazione? spiegare come poter inserire nuove features e nuovo dataset dettagliatamente; parametri utilizzati e come si possono cambiare; 
+		
+		Conclusioni: morfological + lexical potrebbe funzionare? 
+		
+		Dove mettere il fatto che si è isolata un'area di scatterplot in cui ci sono solo fake news? (e che sono state analizzate)
+		
+		\section{Cose da fare}
+		Section Features: spiega logica dietro alle features (mancano 2)
+		Implementazione features: tanti dettagli su come implementate (mancano le stesse 2)
+		Metti immagini e risultati ottenuti! 
+		
+		Fai tutti gli screenshot dei grafici e metti in directory
+		
+		Combinazione features
+		
+		Scopri come mettere gli spazi fra i paragrafi (paragraph?) e mettili un po' ovunque
+		Più grassetto, italic, spazi e foto in giro... Poco leggibile così
+		Gli accenti non funzionano
+		
 
 \end{document}
