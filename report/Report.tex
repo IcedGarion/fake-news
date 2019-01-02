@@ -15,54 +15,48 @@
 	\maketitle   
 	 
    	\section{Introduzione}
-    	In questo documento verrà affrontata la tematica dell'individuazione delle Fake News, con particolare attenzione rivolta all'analisi lessicale e di come sia possibile discriminare le notizie vere da quelle false basandosi su tecniche di Natural Language Processing.
+    	In questo documento verrà affrontato il tema dell'individuazione di fake news, con particolare attenzione rivolta all'analisi morfologico-lessicale delle notizie e alla conseguente estrazione di proprietà che possano aiutare a discriminare le notizie vere da quelle false.
 	    \\~\\
-	    Il documento presenta, nella prima parte, un'analisi esplorativa delle \textbf{"features"}: caratteristiche estraibili dalle notizie che possono essere sfruttate per distinguere quelle vere dalle false. Ne sono presentate diverse e, per ciascuna, viene evidenziato se si tratta di una caratteristica discriminante o meno.
-	    Nella seconda parte, alcune di queste features vengono utilizzate per isolare alcune Fake News e si procede ad analizzarne manualmente il testo per cercare ulteriori indicatori o eventuali anomalie presenti.
+	    Il documento presenta, nella prima parte, un'analisi esplorativa delle \textbf{"feature"}: caratteristiche estraibili dalle notizie che possono essere sfruttate per classificare le fake news. Ne sono presentate diverse e, per ciascuna, viene evidenziato se si tratta di una caratteristica discriminante o meno.
+	    Nella seconda parte, alcune di queste feature vengono utilizzate per isolare delle fake news e si procede ad analizzarne manualmente il testo per cercare ulteriori indicatori o eventuali anomalie presenti.
 	    
 	    \newpage
 	    
     \begin{multicols}{2}
-	    \section{Fake News}
-			Come ormai noto e documentato, le Fake News sono state utilizzate per influenzare l'opinione pubblica, per manipolare i risultati elettorali e in generale per modificare il comportamento e le visioni del pubblico al fine di favorire gli interessi di chi le mette in circolazione.\\~\\
-			Negli ultimi anni si è cercato di migliorare lo sviluppo di applicazioni che potessero riconoscerle e segnalarle il più tempestivamente possibile, direttamente sui social o grazie a plugin per browser. La tecnologia sembra essere ormai matura per permettere una classificazione molto precisa (alcune applicazioni vantano una precisione dell'80\%, o addirittura 95\%) \cite{fakenewschallenge} e, nonostante la disponibilità dei software, le fake news continuano a proliferare.\\~\\	
-			Sono state pubblicate ricerche e sondaggi, \cite{fakenewssurvey} \cite{fakenewsdetection} sono stati resi disponibili parecchi dataset già classificati e si tengono periodicamente dei contest pubblici in cui gli sviluppatori propongono soluzioni sempre più precise; i dati e la tecnologia permettono ormai a chiunque di esplorare nuove soluzioni.
-			
-			\subsection{Individuazione}
+			\section{Individuazione}
 			Il concetto principale da sviluppare per riconoscere una fake news è individuare delle caratteristiche peculiari che potrebbero, in maniera molto generale, appartenere alla categoria delle notizie false ma non appartenere a quelle vere (o viceversa). Se si volesse costruire un classificatore sarebbe necessario, in fase preliminare, definire appunto su quali caratteristiche basare la distinzione: per esempio, se si scoprisse che gran parte delle fake news utilizza un certo tipo di lessico oppure è formata da frasi molto (o molto poco) complesse, allora si potrebbe sviluppare un software che estragga queste caratteristiche dalle notizie e, per via di un training appropriato, che riesca a classificarle nella giusta categoria a seconda della caratteristica considerata.
 			Non è purtroppo un compito immediato identificare una \textbf{qualità discriminante}, che potrebbe risultare valida soltanto per alcuni sottoinsiemi delle notizie considerate e che comunque si potrebbe rivelare non più valida col passare del tempo; in questo documento verranno esplorate alcune di queste caratteristiche per cercare di scoprire, per quanto possibile, se si tratta di peculiarità che possono aiutare nella classificazione.
 	    
 	    \section{Features}
 		    Verrà utilizzato il termine \textbf{"feature"} per indicare le diverse caratteristiche pensate che possono aiutare a distinguere le notizie.
 		    
-			Sono state individuate inizialmente 3 feature, che si pensava potessero discriminare in parte le notizie vere dalle fake news: varietà lessicale, complessità morfologica e quantità di tweet correlati. 				
+			Sono state individuate inizialmente 3 feature: varietà lessicale, complessità morfologica e quantità di tweet correlati. 				
 			\\~\\
-			\textbf{Quantità di tweet correlati}: sono usati i primi termini del testo di una notizia come parole chiave per la \textbf{ricerca di Twitter}, per poi contare quanti risultati (tweet correlati) ha prodotto la ricerca. La logica dietro a questa feature è cercare di capire se il titolo o l'inizio della notizia riscuote particolare successo sui social, ovvero se in generale c'è molta più discussione intorno a notizie non confermate rispetto a quelle vere. Per come è stata concepita la feature, però, risulta difficile individuare quali termini all'interno della notizia utilizzare per la ricerca, dato che l'uso di troppe parole non produce mai nessun risultato.
+			\textbf{Quantità di tweet correlati}: sono usati i primi termini che compaiono nel testo di una notizia come parole chiave per la \textbf{ricerca di Twitter}, per poi contare quanti risultati (tweet correlati) ha prodotto la ricerca. La logica dietro a questa feature è cercare di capire se il titolo o l'inizio della notizia riscuote particolare successo sui social, ovvero se in generale c'è molta più discussione intorno a notizie non confermate rispetto a quelle vere. Per come è stata concepita la feature, però, risulta difficile individuare quali termini all'interno della notizia utilizzare per la ricerca, dato che l'uso di troppe parole non produce mai nessun risultato.
 			\\~\\
 			\textbf{Complessità morfologica}: analisi della \textbf{struttura delle frasi} che compongono la notizia e del loro albero di parsing, per determinare quanto e' complessa, quante frasi la compongono e come sono costruite.
-			Si è ipotizzato che le notizie false potessero essere scritte in modo meno preciso, complesso, in quanto non redatte da professionisti del mestiere come giornalisti o scrittori; ma ci si potrebbe anche aspettare l'opposto: chi le scrive potrebbe essere aggiornato sui risultati ottenuti nel campo della classificazione delle notizie e comportarsi di conseguenza, adattando lo stile di scrittura per eludere i classificatori che fanno leva su alcune particolari caratteristiche.
+			Si è ipotizzato che le notizie false potessero essere scritte in modo meno preciso, complesso, in quanto non redatte da professionisti del mestiere come giornalisti o scrittori; ma ci si potrebbe anche aspettare l'opposto: chi le scrive potrebbe adattare volutamente il suo stile per eludere i classificatori che fanno leva su alcune particolari caratteristiche.
 			\\~\\
 			\textbf{Varietà lessicale}: rappresenta il \textbf{numero di vocaboli diversi} utilizzati all'interno della news. Notizie molto brevi e con parole tutte diverse hanno quindi un valore molto alto per questa feature.
 			Combinata con la complessità morfologica, fornisce una quadro abbastanza ampio sullo stile di scrittura del redattore.
 
 		    
 	    \section{Implementazione}
-		    Il sistema e' stato implementato in modo da poter inserire, in qualsiasi momento, una nuova feature ed analizzare i risultati ottenuti; è anche possibile cambiare facilmente il dataset fornendo alcune informazioni per poterlo subito integrare.
-		    
+		    Il sistema e' stato implementato in modo da poter inserire, in qualsiasi momento, una nuova feature ed analizzare subito i risultati prodotti.\\~\\
 		    Tutto il codice del progetto si trova su bitbucket: 
 		    \href{https://bitbucket.org/IcedGarion/fake-news}{fake-news repository}. 
 		    
 			\subsection{Dataset}
-			Durante lo sviluppo si è utilizzato un dataset proposto da kaggle per un contest di machine learning riguardante la classificazione di fake news \cite{kaggledataset}. Il dataset presenta \textbf{20800 articoli} caratterizzati da titolo, autore, testo della notizia ed etichetta (fake / non fake) e contiene notizie di vario genere, da articoli di giornale a tweet; le notizie etichettate come non fake provengono da fonti considerate affidabili, come famose testate giornalistiche. I record sono equamente distribuiti in 10413 fake e 10387 non fake.
+			Durante lo sviluppo si è utilizzato un dataset proposto da kaggle per un contest di machine learning riguardante la classificazione di fake news \cite{kaggledataset}. Il dataset presenta \textbf{20800 articoli} caratterizzati da titolo, autore, testo della notizia ed etichetta (fake / non fake) e contiene notizie di vario genere, da articoli di giornale a tweet. Le notizie etichettate come non fake provengono da fonti considerate affidabili, come famose testate giornalistiche. I record sono equamente distribuiti in 10413 fake e 10387 non fake.
 			\\~\\
 			È comunque possibile cambiare facilmente dataset ed eseguire il software in modo che produca i risultati per le feature che si vogliono considerare, applicate ai nuovi record, in modo che vengano prodotti nuovi grafici relativi ai nuovi dati.
 			
 			
 			\subsection{Features Extraction}
-			Di seguito verranno descritte dettagliatamente le features e la loro implementazione.
+			Di seguito verranno descritte dettagliatamente le feature e la loro implementazione.
 			Ciascuna di esse viene applicata a tutte le notizie del dataset e produce un valore numerico; sono poi proposti i risultati ottenuti sotto forma di grafici esplicativi. Per ogni feature, sono presenti due \textbf{istogrammi} che rappresentano la distribuzione dei valori della caratteristica sia per le notizie etichettate nel dataset come "affidabili" (non fake) che per quelle "non affidabili" (fake); l'ascissa rappresenta il valore ottenuto dai vari record rispetto alla feature in questione, mentre sull'asse y è riportata la frequenza con la quale un valore compare. È prodotto anche un \textbf{boxplot}, per meglio analizzare la distribuzione dei risultati, sempre in duplice istanza per le notizie vere e false.\\~\\
 			Avendo i grafici divisi per le due classi di notizie, è facile capire se la feature pensata è un buon discriminatore: basta guardare se ci sono differenze percettibili nella distribuzione dei valori fra i due grafici.\\
-			Più avanti sono anche proposti degli \textbf{scatterplot}, per visualizzare se ci sono interdipendenze fra le features.
+			Più avanti sono anche proposti degli \textbf{scatterplot}, per visualizzare se ci sono interdipendenze fra le feature.
 			
 				\subsubsection{Morfological Complexity}
 					Viene analizzata la morfologia della frase, ovvero la struttura grammaticale delle parole e la loro categorizzazione in nome, pronome, verbo, aggettivo. Sono evidenziati soprattutto i legami che questi elementi hanno fra loro all'interno della frase: più la struttura è complessa e più la frase risulta scritta in modo preciso e formale.\\~\\
@@ -85,9 +79,14 @@
 					Anche il boxplot evidenzia questa caratteristica: si osserva più dispersione nella distribuzione delle notizie fake, con una quantità maggiore di valori bassi rispetto a quelle non fake.
 					
 				\subsubsection{Twitter}
-				Inizialmente il testo della notizia viene pre-processato, si rimuove punteggiatura e caratteri non validi e sono estratte le prime 5 parole che compaiono. Attraverso le \textbf{API di Twitter} si esegue una ricerca utilizzando questi primi termini e poi si contano i tweet correlati risultanti.\\
+				Inizialmente il testo della notizia viene pre-processato, si rimuove punteggiatura e caratteri non validi e sono estratte le prime 5 parole che compaiono. Attraverso le \textbf{API di Twitter} si esegue una ricerca utilizzando questi primi termini come parole chiave e poi si contano i tweet correlati risultanti.\\
 				Il numero di risultati dipende molto da quali parole compaiono per prime nella notizia e soprattutto da \textit{quanti} termini si sceglie di usare. Il numero massimo di post che Twitter restituisce è 100.
 				\\~\\
+				\\~\\
+				\\~\\
+				\\~\\
+				\\~\\
+				
 				\textbf{DISTRIBUZIONE FEATURE}	
 				\\~\\
 				\includegraphics[width=\linewidth]{twitter_hist_fake}
@@ -102,12 +101,11 @@
 				Una spiegazione potrebbe essere che, se le prime parole scelte sono molto comuni o fanno riferimento ad un argomento molto discusso, il risultato è il massimo (100); se, invece, si tratta di parole poco usate il risultato scende subito a 0, senza valori intermedi.
 				A causa della distribuzione atipica, il boxplot generato non riesce a distinguere fra i dati della distribuzione e gli outliers, che si trovano tutti nel mezzo, e risulta quindi poco esplicativo.
 				\\~\\
-				Per capire meglio se la forma del grafico prodotto dipende soltanto dai parametri scelti, o se invece è a causa della feature in sè, combinata con la logica della ricerca di twitter, allora è stata provata una variante. Invece che usate le prime 5 parole per la ricerca, vengono prese le prime 3. Il risultato è il medesimo, con i valori più spostati verso il 100 (rispetto a prima, dove era il valore 0 a comparire più frequentemente). Non c'è una frequenza alta di valori intermedi, si ha sempre 0 oppure 100, in entrambe le classi di notizie.
+				Per capire meglio se la forma del grafico prodotto dipende soltanto dai parametri scelti, o se invece è a causa della feature in sè combinata con la logica della ricerca di twitter, allora è stata provata una variante. Invece che usate le prime 5 parole per la ricerca, vengono prese le prime 3. Il risultato è il medesimo, con i valori più spostati verso il 100 (rispetto a prima, dove era il valore 0 a comparire più frequentemente). Non c'è una frequenza alta di valori intermedi, si ha sempre 0 oppure 100, in entrambe le classi di notizie.
 				\\~\\
 				\includegraphics[width=\linewidth]{twitter3_hist_fake}
 				\\~\\
 				\includegraphics[width=\linewidth]{twitter3_hist_notfake}
-				\\~\\
 				
 				\subsubsection{Lexical Variety}
 				Per ogni termine diverso che compare nel testo della notizia, sono contate le sue occorrenze, utilizzando una funzione della \textbf{libreria pattern.metrics}. Il testo non viene manipolato: non è stata eseguita nessuna fase di preprocessing in cui le frasi vengono divise e le parole non sono sottoposte a stemming, per preservare la forma originale in cui è scritta la notizia.
@@ -120,10 +118,10 @@
 				\\~\\
 				\includegraphics[width=\linewidth]{lexical_box}
 				\\~\\
-				Come per morphological complexity, il grafico ha una forma a campana ed è ben distribuito. Si nota che, nel caso delle fake news, è presente una coda ampia oltre il valore 0.8, ci sono molti valori massimi e in generale la distribuzione è più ampia e non tutta concentrata al centro. Per quanto riguarda le notizie affidabili, queste sono quasi tutte concentrate verso 0.4 - 0.5.\\
+				Come per morphological complexity, il grafico ha una forma a campana ed è ben distribuito. Si nota che, nel caso delle fake news, è presente una coda ampia oltre il valore 0.8, ci sono molti valori massimi (1.0) e in generale la distribuzione è più ampia e non tutta concentrata al centro. Per quanto riguarda le notizie affidabili, queste sono quasi tutte concentrate verso 0.4 - 0.6.\\
 				Questo è forse \textbf{il dato più significativo registrato}: indica che le fake news hanno una probabilità maggiore di presentare una varietà lessicale più alta rispetto alle notizie affidabili, che si traduce nel fatto che il testo delle fake è più vario. Analizzando nello specifico la coda di valori a 1.0, si nota che sono tutte notizie di pochissime parole, tutte diverse.\\~\\
 				
-				\subsubsection{Combinazione Features}
+				\subsubsection{Combinazione Feature}
 				Invece che considerare soltanto una feature, è possibile analizzare i risultati di due (o più) caratteristiche prese insieme. Misurando l'interdipendenza fra due feature è possibile visualizzare se una delle due influenza l'altra; inoltre può servire per isolare delle regioni in cui sono presenti soltanto fake news e quindi registrare il range di valori di entrambe le feature in cui si ottiene questo isolamento.\\~\\
 				Inizialmente sono riportati due scatterplot in cui vengono combinate due feature senza ottenere un risultato significativo: i valori sono sparsi in tutto il grafico e le notizie fake e quelle non fake sono mischiate fra loro; non è possibile trovare una zona in cui si raggruppa una categoria.
 				\\~\\						
@@ -131,28 +129,37 @@
 				\\~\\
 				\includegraphics[width=\linewidth]{lexical_twitter_scatter}
 				\\~\\
-				La feature di Twitter combinata con le altre due non produce nessun risultato.\\Invece se si considerano le due caratteristiche linguistiche insieme, si nota qualcosa di più interessante.
+				La feature di Twitter combinata con le altre due non produce nessun risultato particolare.\\Se invece si considerano le due caratteristiche linguistiche insieme, si nota qualcosa di più interessante.
 				\\~\\
 				\includegraphics[width=\linewidth]{lexical_morfological_scatter}
 				\\~\\
-				Innanzitutto i valori sono molto più distribuiti rispetto ai grafici precedenti, analogamente a quanto succedeva con le singole features. È possibile isolare una zona in cui sono presenti soltanto fake news: queste hanno tutte un basso valore di complessità morfologica e un alto valore di varietà lessicale.\\
+				Innanzitutto i valori sono molto più distribuiti rispetto ai grafici precedenti, analogamente a quanto succedeva con le singole feature. È possibile isolare una zona in cui sono presenti soltanto fake news: queste hanno tutte un basso valore di complessità morfologica e un alto valore di varietà lessicale.\\
 				Questo risultato conferma quanto trovato in precedenza: nel dataset considerato, \textbf{le notizie con poche parole tutte diverse}, con una forma della frase molto semplice \textbf{sono quasi sicuramente false}.\\~\\
 				Separando dal dataset questo sottoinsieme di notizie con valore di lexical variety maggiore di 0.8 e morphological complexity minore di 10 (\textbf{313 record}), se ne può analizzare il testo per capire se si tratta di anomalie, di notizie particolari o altro. Sono, molto spesso, titoli click-bait per articoli falsi, frasi apparentemente senza un senso (comunque classificate come non affidabili, come \textit{non-notizie}), pubblicità, tweet con opinioni personali o che non riguardano delle notizie; ma anche vere e proprie fake news, notizie volutamente false.
 
 		\section{Conclusioni e Lavori futuri}	
-		È stato analizzato il dataset applicando diverse feature a tutte le notizie che conteneva e sono stati generati i grafici delle distribuzioni, per analizzare i valori prodotti dalle varie caratteristiche. Per le feature linguistiche si è notato che all'interno di un certo range erano presenti soltanto fake news, quindi sono state considerate assieme per isolare in modo più preciso la zona contenente le notizie false. Utilizzando questo raggruppamento è stato possibile separare dal dataset le notizie false per analizzarle nel dettaglio.
+		È stato analizzato il dataset applicando diverse feature a tutte le notizie che conteneva e sono stati generati i grafici delle distribuzioni, per visualizzare i valori prodotti dalle varie caratteristiche. Per le feature linguistiche si è notato che all'interno di un certo range erano presenti soltanto fake news, quindi sono state considerate assieme per isolare in modo più preciso la zona contenente le notizie false. Utilizzando questo raggruppamento si sono separate dal dataset alcune notizie false per analizzarle nel dettaglio.
 		\\~\\
 		Grazie all'analisi svolta è stato possibile classificare "manualmente" soltanto una parte delle fake news contenute nel dataset, ovvero quelle con bassa complessità morfologica e alta varietà dei termini. Proponendo nuove feature possibili e ripetendo l'analisi potrebbe essere possibile trovare altre caratteristiche che aiutino nella distinzione e, avendo a disposizione abbastanza indicatori, riuscire a distinguere interamente le notizie affidabili da quelle false.
 	   	\end{multicols}		       	
 
+		\\~\\
+		\\~\\
+		\\~\\
+		\\~\\
+		\\~\\
+		\\~\\
+		\\~\\
+		\\~\\
+		\\~\\
+		\\~\\
+		\\~\\
+		\\~\\
+		\\~\\
+		\\~\\
+		\\~\\
+		\\~\\
 		\begin{thebibliography}{9}
-			\bibitem{fakenewschallenge}
-				https://www.fakenewschallenge.org/
-			\bibitem{fakenewssurvey}
-			Zubiaga, A., Aker, A., Bontcheva, K., Liakata, M., et Procter, R. (2017). Detection and resolution of rumours in social	media: A survey.
-			\bibitem{fakenewsdetection}
-			Conroy, N. J., Rubin, V. L., et Chen, Y. (2015). Automatic deception detection: Methods for finding fake news.
-			Proceedings of the Association for Information Science and Technology, 52(1), 1-4.
 			\bibitem{kaggledataset}
 				https://www.kaggle.com/c/fake-news/
 			\bibitem{stanfordparser}
