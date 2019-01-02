@@ -8,12 +8,12 @@
 
 # CONFIGURATIONS
 
-* stanford parser path: python/Features.py -> `morfological_complexity.__init__` (parser_base_dir) (default: ./parser)
+* stanford parser path: src/Features.py -> `morfological_complexity.__init__` (parser_base_dir) (default: ./parser)
     Serve stanford parser funzionante (es, parser/stanford-parser-full-2018-02-27/stanford_parser.jar)
     e i modelli per l'inglese (parser/stanford-parser-full-2018-02-27/englishPCFG.ser.gz)
 
-* dataset path: python/Dataset.py -> `kagglecontest_dataset.__init__` (dataset_path) (default ./data/train.csv)
-* ( twitter API tokens: python/Features.py -> `twittersearch_count.__init__` ) (gia' impostate ma si puo' impostare la propria)
+* dataset path: src/Dataset.py -> `kagglecontest_dataset.__init__` (dataset_path) (default ./data/train.csv)
+* ( twitter API tokens: src/Features.py -> `twittersearch_count.__init__` ) (gia' impostate ma si puo' impostare la propria)
 
 
 # ADD NEW FEATURES
