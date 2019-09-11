@@ -1,3 +1,19 @@
+# FAKE NEWS ANALYSIS
+
+Questo repository affronta il tema dell’individuazione di fake news,
+con particolare attenzione rivolta all’analisi morfologico-lessicale delle notizie e
+alla conseguente estrazione di proprietà che possano aiutare a discriminare le
+notizie vere da quelle false.
+La fase iniziale presenta un’analisi esplorativa delle ”feature”:
+caratteristiche estraibili dalle notizie che possono essere sfruttate per classificare
+le fake news. Ne sono presentate diverse e, per ciascuna, viene evidenziato se
+si tratta di una caratteristica discriminante o meno.
+Nella seconda fase, alcune di queste feature vengono utilizzate per isolare delle fake news e si procede
+ad analizzarne manualmente il testo per cercare ulteriori indicatori o eventuali
+anomalie presenti.
+
+
+
 # REQUIRED LIBRARIES
 
 * nltk (`pip install nltk`)
